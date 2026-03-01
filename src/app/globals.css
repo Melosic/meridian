@@ -12,9 +12,9 @@
   --color-warning: #f59e0b;
   
   --bg-main: #E8E4DD;
-  --bg-card: rgba(255, 255, 255, 0.5);
-  --bg-card-hover: rgba(255, 255, 255, 0.85);
-  --glass-border: rgba(0, 0, 0, 0.06);
+  --bg-card: rgba(255, 255, 255, 0.35);
+  --bg-card-hover: rgba(255, 255, 255, 0.6);
+  --glass-border: transparent;
   --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
   
   --gradient-hero: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
@@ -57,8 +57,8 @@ body {
   background: var(--bg-card);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--shadow-lg);
+  border: none;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06), 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   border-radius: var(--radius-xl);
   transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }

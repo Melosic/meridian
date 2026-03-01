@@ -108,7 +108,7 @@ export default function ItemDetailPage() {
       <div className="px-4 pt-4 space-y-4">
         <div className="glass-card p-5">
           <div className="flex items-start gap-4">
-            {item.images.length > 0 ? (
+            {item.images.length > 0 && (
               <div className="flex gap-2 overflow-x-auto pb-2">
                 {item.images.map((img, idx) => (
                   <Image
@@ -120,35 +120,11 @@ export default function ItemDetailPage() {
                   />
                 ))}
               </div>
-            ) : (
-              <div className="w-24 h-24 rounded-xl flex items-center justify-center" style={{ background: '#f5f5f5' }}>
-                <span style={{ color: '#ccc' }}>无图</span>
-              </div>
             )}
           </div>
           <div className="mt-5">
             <div className="flex items-center gap-2 mb-3">
               <h2 className="text-lg font-semibold" style={{ color: '#1a1a1a' }}>{item.name}</h2>
-            </div>
-            <div 
-              className="inline-flex items-center gap-3 px-4 py-3 rounded-xl"
-              style={{ background: item.settled ? 'rgba(16,185,129,0.1)' : 'rgba(245,158,11,0.1)' }}
-            >
-              <span 
-                className="text-xl font-bold"
-                style={{ color: item.settled ? '#10b981' : '#f59e0b' }}
-              >
-                利润: {formatMoney(item.profit)}
-              </span>
-              <span 
-                className="text-xs px-2.5 py-1 rounded-full font-medium"
-                style={{ 
-                  background: item.settled ? '#10b981' : '#f59e0b',
-                  color: '#fff'
-                }}
-              >
-                {item.settled ? '已结算' : '待结算'}
-              </span>
             </div>
           </div>
         </div>
@@ -186,7 +162,7 @@ export default function ItemDetailPage() {
               <span style={{ color: '#999' }}>邮费</span>
               <span className="font-semibold" style={{ color: '#f59e0b' }}>- {formatMoney(item.shipping)}</span>
             </div>
-            <div className="flex justify-between items-center py-4 rounded-xl mt-2" style={{ background: item.profit >= 0 ? 'rgba(16,185,129,0.08)' : 'rgba(239,68,68,0.08)' }}>
+            <div className="flex justify-between items-center py-4 mt-2">
               <span className="font-semibold" style={{ color: '#1a1a1a' }}>实际利润</span>
               <span className="text-xl font-bold" style={{ color: item.profit >= 0 ? '#10b981' : '#ef4444' }}>
                 {formatMoney(item.profit)}

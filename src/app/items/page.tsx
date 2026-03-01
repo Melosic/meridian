@@ -14,7 +14,6 @@ import {
   AppstoreOutline, 
   UnorderedListOutline, 
   SetOutline,
-  AddOutline,
   FilterOutline,
   CloseOutline,
 } from 'antd-mobile-icons';
@@ -87,7 +86,7 @@ export default function ItemsPage() {
           onClick={() => router.push(`/items/${item.id}`)}
         >
           <div className="flex gap-4">
-            {item.images.length > 0 ? (
+            {item.images.length > 0 && (
               <div className="relative shrink-0">
                 <Image
                   src={item.images[0].data}
@@ -104,10 +103,6 @@ export default function ItemsPage() {
                   </div>
                 )}
               </div>
-            ) : (
-              <div className="w-20 h-20 rounded-2xl flex items-center justify-center shrink-0" style={{ background: 'rgba(255,255,255,0.4)' }}>
-                <span style={{ color: '#94a3b8' }}>无图</span>
-              </div>
             )}
             <div className="flex-1 min-w-0 py-1">
               <div className="flex items-start justify-between gap-2">
@@ -121,9 +116,8 @@ export default function ItemsPage() {
                   售价: <span style={{ color: '#0f172a', fontWeight: 700 }}>{formatMoney(item.price)}</span>
                 </div>
                 <div 
-                  className="text-sm font-bold px-4 py-2 rounded-xl"
+                  className="text-sm font-bold"
                   style={{ 
-                    background: item.profit >= 0 ? 'rgba(16, 185, 129, 0.15)' : 'rgba(239, 68, 68, 0.15)',
                     color: item.profit >= 0 ? '#059669' : '#dc2626'
                   }}
                 >
@@ -138,20 +132,20 @@ export default function ItemsPage() {
   };
 
   return (
-    <div className="min-h-screen pb-28" style={{ background: '#E8E4DD' }}>
+    <div className="min-h-screen pb-28" style={{ background: 'linear-gradient(180deg, #ffffff 0%, #f0f0f0 100%)' }}>
       <div 
-        className="relative px-5 pt-14 pb-6"
-        style={{ background: 'linear-gradient(180deg, #F5F2ED 0%, #E8E4DD 100%)' }}
+        className="relative px-5 pt-14 pb-12"
+        style={{ background: 'transparent' }}
       >
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-2xl font-bold" style={{ color: '#0f172a' }}>
-            {categoryName ? categoryName : '全部商品'}
+            {categoryName ? categoryName : '商品'}
           </h1>
           <Button
             fill="none"
             onClick={() => setFilterVisible(true)}
             className="cursor-pointer font-semibold"
-            style={hasActiveFilters ? { color: '#0f172a', background: 'rgba(255,255,255,0.5)', borderRadius: '9999px', padding: '8px 16px' } : { color: '#64748b', background: 'rgba(255,255,255,0.3)', borderRadius: '9999px', padding: '8px 16px' }}
+            style={hasActiveFilters ? { color: '#0f172a' } : { color: '#64748b' }}
           >
             <FilterOutline />
           </Button>
@@ -168,7 +162,7 @@ export default function ItemsPage() {
         />
       </div>
 
-      <div className="px-5 pt-5">
+      <div className="px-5">
         {filteredItems.length === 0 ? (
           <div className="empty-state-card cursor-pointer" onClick={() => router.push('/items/new')}>
             <div className="w-20 h-20 mx-auto mb-5 rounded-[2rem] flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.5)' }}>
@@ -179,7 +173,6 @@ export default function ItemsPage() {
               onClick={() => router.push('/items/new')}
               className="glass-button px-8 py-3.5 text-sm cursor-pointer"
             >
-              <AddOutline className="mr-1.5" style={{ verticalAlign: 'middle' }} />
               添加商品
             </button>
           </div>
@@ -195,7 +188,6 @@ export default function ItemsPage() {
               }}
               onClick={() => router.push('/items/new')}
             >
-              <AddOutline style={{ fontSize: 28, color: '#64748b' }} />
               <div className="text-base mt-2 font-semibold" style={{ color: '#64748b' }}>添加商品</div>
             </div>
           </>

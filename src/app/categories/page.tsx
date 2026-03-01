@@ -14,7 +14,6 @@ import {
   AppstoreOutline, 
   UnorderedListOutline, 
   SetOutline,
-  AddOutline,
 } from 'antd-mobile-icons';
 import { useCategoryStore, useItemStore } from '@/store';
 import type { Category } from '@/types';
@@ -104,7 +103,7 @@ export default function CategoriesPage() {
             },
           ]}
         >
-          <div className="glass-card p-5 cursor-pointer">
+          <div className="glass-card p-5 cursor-pointer" style={{ animationDelay: `${index * 0.1}s` }}>
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-4">
                 <div 
@@ -126,14 +125,13 @@ export default function CategoriesPage() {
   };
 
   return (
-    <div className="min-h-screen pb-28" style={{ background: '#E8E4DD' }}>
+    <div className="min-h-screen pb-28" style={{ background: 'linear-gradient(180deg, #ffffff 0%, #f0f0f0 100%)' }}>
       <div 
-        className="relative px-6 pt-14 pb-10"
-        style={{ background: 'linear-gradient(180deg, #F5F2ED 0%, #E8E4DD 100%)' }}
+        className="relative px-6 pt-14 pb-12"
+        style={{ background: 'transparent' }}
       >
         <div className="relative z-10">
-          <h1 className="text-2xl font-bold tracking-tight" style={{ color: '#0f172a' }}>分类管理</h1>
-          <p className="text-sm mt-2 font-light" style={{ color: '#64748b' }}>管理商品分类</p>
+          <h1 className="text-2xl font-bold tracking-tight" style={{ color: '#0f172a' }}>商品类别</h1>
         </div>
       </div>
 
@@ -148,7 +146,6 @@ export default function CategoriesPage() {
               onClick={() => setAddDialogVisible(true)}
               className="glass-button px-8 py-3.5 text-sm cursor-pointer"
             >
-              <AddOutline className="mr-1.5" style={{ verticalAlign: 'middle' }} />
               添加分类
             </button>
           </div>
@@ -166,7 +163,6 @@ export default function CategoriesPage() {
               }}
               onClick={() => setAddDialogVisible(true)}
             >
-              <AddOutline style={{ fontSize: 28, color: '#64748b' }} />
               <div className="text-base mt-2 font-semibold" style={{ color: '#64748b' }}>添加分类</div>
             </div>
           </>

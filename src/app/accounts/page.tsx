@@ -15,7 +15,6 @@ import {
   AppstoreOutline, 
   UnorderedListOutline, 
   SetOutline,
-  AddOutline,
   CloseOutline,
 } from 'antd-mobile-icons';
 import { useAccountStore, useItemStore } from '@/store';
@@ -99,6 +98,7 @@ export default function AccountsPage() {
   const renderAccountItem = (account: Account, index: number) => (
     <div key={account.id} className="animate-fade-in-up" style={{ animationDelay: `${index * 0.05}s` }}>
       <SwipeAction
+        style={{ background: 'transparent', boxShadow: 'none' }}
         rightActions={[
           {
             key: 'edit',
@@ -114,7 +114,7 @@ export default function AccountsPage() {
           },
         ]}
       >
-        <div className="glass-card p-5 cursor-pointer">
+        <div className="glass-card p-3 cursor-pointer" style={{ boxShadow: 'none', borderRadius: '16px' }}>
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-4">
               <div 
@@ -147,10 +147,10 @@ export default function AccountsPage() {
   };
 
   return (
-    <div className="min-h-screen pb-28" style={{ background: '#E8E4DD' }}>
+    <div className="min-h-screen pb-28" style={{ background: 'linear-gradient(180deg, #ffffff 0%, #f0f0f0 100%)' }}>
       <div 
-        className="relative px-6 pt-14 pb-10"
-        style={{ background: 'linear-gradient(180deg, #F5F2ED 0%, #E8E4DD 100%)' }}
+        className="relative px-6 pt-14 pb-12"
+        style={{ background: 'transparent' }}
       >
         <div className="relative z-10">
           <h1 className="text-2xl font-bold tracking-tight" style={{ color: '#0f172a' }}>账号管理</h1>
@@ -169,7 +169,6 @@ export default function AccountsPage() {
               onClick={() => setAddDialogVisible(true)}
               className="glass-button px-8 py-3.5 text-sm cursor-pointer"
             >
-              <AddOutline className="mr-1.5" style={{ verticalAlign: 'middle' }} />
               添加账号
             </button>
           </div>
@@ -187,7 +186,6 @@ export default function AccountsPage() {
               }}
               onClick={() => setAddDialogVisible(true)}
             >
-              <AddOutline style={{ fontSize: 28, color: '#64748b' }} />
               <div className="text-base mt-2 font-semibold" style={{ color: '#64748b' }}>添加账号</div>
             </div>
           </>

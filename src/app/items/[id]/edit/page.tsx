@@ -270,7 +270,7 @@ export default function EditItemPage() {
               </div>
             </div>
 
-            <div className="glass-card p-4" style={{ background: profit >= 0 ? 'rgba(16,185,129,0.08)' : 'rgba(239,68,68,0.08)' }}>
+            <div className="p-4">
               <div className="flex justify-between items-center">
                 <span className="text-sm font-medium" style={{ color: '#666' }}>预计利润</span>
                 <span className={`text-xl font-bold ${profit >= 0 ? 'profit-text' : 'loss-text'}`}>

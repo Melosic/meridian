@@ -9,7 +9,6 @@ import {
   UnorderedListOutline, 
   SetOutline,
   RightOutline,
-  AddOutline,
 } from 'antd-mobile-icons';
 
 export default function HomePage() {
@@ -35,40 +34,45 @@ export default function HomePage() {
   const totalStats = {
     totalItems: items.length,
     totalProfit: items.reduce((sum, item) => sum + item.profit, 0),
+    totalSales: items.reduce((sum, item) => sum + item.price, 0),
     settledCount: items.filter((item) => item.settled).length,
   };
 
   if (!mounted) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: '#E8E4DD' }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'linear-gradient(180deg, #fafafa 0%, #f0f0f0 100%)' }}>
         <div className="animate-pulse text-base" style={{ color: '#64748b' }}>加载中...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen pb-28" style={{ background: '#E8E4DD' }}>
-      <div className="relative overflow-hidden px-6 pt-14 pb-10" style={{ background: 'linear-gradient(180deg, #F5F2ED 0%, #E8E4DD 100%)' }}>
+    <div className="min-h-screen pb-28" style={{ background: 'linear-gradient(180deg, #ffffff 0%, #f0f0f0 100%)' }}>
+      <div className="relative px-6 pt-14 pb-12" style={{ background: 'transparent' }}>
         <div className="relative z-10">
-          <div className="flex justify-between items-start mb-10">
+          <div className="flex justify-between items-start mb-6">
             <div>
               <h1 className="text-3xl font-bold tracking-tight" style={{ color: '#0f172a' }}>Meridian</h1>
             </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-4">
-            <div className="stat-card p-5 text-center cursor-default">
-              <div className="text-3xl font-bold" style={{ color: '#0f172a' }}>{totalStats.totalItems}</div>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="stat-card p-4 text-center cursor-default">
+              <div className="text-2xl font-bold" style={{ color: '#0f172a' }}>{totalStats.totalItems}</div>
               <div className="text-xs mt-2 font-semibold" style={{ color: '#64748b' }}>商品总数</div>
             </div>
-            <div className="stat-card p-5 text-center cursor-default">
-              <div className={`text-3xl font-bold ${totalStats.totalProfit >= 0 ? 'profit-text' : 'loss-text'}`}>
+            <div className="stat-card p-4 text-center cursor-default">
+              <div className="text-2xl font-bold" style={{ background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{formatMoney(totalStats.totalSales)}</div>
+              <div className="text-xs mt-2 font-semibold" style={{ color: '#64748b' }}>总销售额</div>
+            </div>
+            <div className="stat-card p-4 text-center cursor-default">
+              <div className={`text-2xl font-bold ${totalStats.totalProfit >= 0 ? 'profit-text' : 'loss-text'}`}>
                 {formatMoney(totalStats.totalProfit)}
               </div>
               <div className="text-xs mt-2 font-semibold" style={{ color: '#64748b' }}>总利润</div>
             </div>
-            <div className="stat-card p-5 text-center cursor-default">
-              <div className="text-3xl font-bold" style={{ background: 'linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{totalStats.settledCount}</div>
+            <div className="stat-card p-4 text-center cursor-default">
+              <div className="text-2xl font-bold" style={{ background: 'linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{totalStats.settledCount}</div>
               <div className="text-xs mt-2 font-semibold" style={{ color: '#64748b' }}>已结算</div>
             </div>
           </div>
@@ -97,7 +101,6 @@ export default function HomePage() {
               onClick={(e) => { e.stopPropagation(); router.push('/categories'); }}
               className="glass-button px-8 py-3.5 text-sm cursor-pointer"
             >
-              <AddOutline className="mr-1.5" style={{ verticalAlign: 'middle' }} />
               去添加分类
             </button>
           </div>

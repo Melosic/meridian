@@ -1,7 +1,8 @@
 {
+  "/categories/page": "app/categories/page.js",
+  "/accounts/page": "app/accounts/page.js",
+  "/items/[id]/page": "app/items/[id]/page.js",
   "/items/page": "app/items/page.js",
   "/items/[id]/edit/page": "app/items/[id]/edit/page.js",
-  "/page": "app/page.js",
-  "/categories/page": "app/categories/page.js",
-  "/accounts/page": "app/accounts/page.js"
+  "/page": "app/page.js"
 }
