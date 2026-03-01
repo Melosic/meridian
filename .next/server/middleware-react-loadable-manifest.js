@@ -1,0 +1,1 @@
+self.__REACT_LOADABLE_MANIFEST="{\"lib\\\\db.ts -> localforage\":{\"id\":\"lib\\\\db.ts -> localforage\",\"files\":[\"static/chunks/_app-pages-browser_node_modules_localforage_dist_localforage_js.js\"]}}"

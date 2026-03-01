@@ -1,0 +1,898 @@
+<html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Social Grow - Social Media Agency</title>
+<!-- Fonts: Manrope (Sans) and Playfair Display (Serif for accent) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- Iconify -->
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<style>
+/* Custom Animations */
+@keyframes slideUpBlur {
+0% {
+opacity: 0;
+transform: translateY(30px);
+filter: blur(10px);
+}
+100% {
+opacity: 1;
+transform: translateY(0);
+filter: blur(0);
+}
+}
+@keyframes sonarWave {
+0% {
+transform: scale(0.9);
+opacity: 0.8;
+}
+100% {
+transform: scale(2.5);
+opacity: 0;
+}
+}
+@keyframes cardEnter {
+0% { opacity: 0; transform: scale(0.95) translateX(20px); }
+100% { opacity: 1; transform: scale(1) translateX(0); }
+}
+@keyframes cardExit {
+0% { opacity: 1; transform: scale(1) translateX(0); }
+100% { opacity: 0; transform: scale(1.05) translateX(-20px); }
+}
+.animate-enter {
+animation: slideUpBlur 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+.sonar-ring {
+animation: sonarWave 2s infinite cubic-bezier(0.16, 1, 0.3, 1);
+}
+.card-active {
+display: block;
+animation: cardEnter 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+z-index: 10;
+}
+.card-hidden {
+display: none;
+}
+/* Hide scrollbar for clean UI */
+.no-scrollbar::-webkit-scrollbar {
+display: none;
+}
+.no-scrollbar {
+-ms-overflow-style: none;
+scrollbar-width: none;
+}
+</style>
+<link id="all-fonts-link-font-geist" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;display=swap"><style id="all-fonts-style-font-geist">.font-geist { font-family: 'Geist', sans-serif !important; }</style><link id="all-fonts-link-font-roboto" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&amp;display=swap"><style id="all-fonts-style-font-roboto">.font-roboto { font-family: 'Roboto', sans-serif !important; }</style><link id="all-fonts-link-font-montserrat" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&amp;display=swap"><style id="all-fonts-style-font-montserrat">.font-montserrat { font-family: 'Montserrat', sans-serif !important; }</style><link id="all-fonts-link-font-poppins" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;display=swap"><style id="all-fonts-style-font-poppins">.font-poppins { font-family: 'Poppins', sans-serif !important; }</style><link id="all-fonts-link-font-playfair" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;900&amp;display=swap"><style id="all-fonts-style-font-playfair">.font-playfair { font-family: 'Playfair Display', serif !important; }</style><link id="all-fonts-link-font-instrument-serif" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:wght@400;500;600;700&amp;display=swap"><style id="all-fonts-style-font-instrument-serif">.font-instrument-serif { font-family: 'Instrument Serif', serif !important; }</style><link id="all-fonts-link-font-merriweather" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&amp;display=swap"><style id="all-fonts-style-font-merriweather">.font-merriweather { font-family: 'Merriweather', serif !important; }</style><link id="all-fonts-link-font-bricolage" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;500;600;700&amp;display=swap"><style id="all-fonts-style-font-bricolage">.font-bricolage { font-family: 'Bricolage Grotesque', sans-serif !important; }</style><link id="all-fonts-link-font-jakarta" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap"><style id="all-fonts-style-font-jakarta">.font-jakarta { font-family: 'Plus Jakarta Sans', sans-serif !important; }</style><link id="all-fonts-link-font-space-grotesk" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap"><style id="all-fonts-style-font-space-grotesk">.font-space-grotesk { font-family: 'Space Grotesk', sans-serif !important; }</style><link id="all-fonts-link-font-work-sans" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700;800&amp;display=swap"><style id="all-fonts-style-font-work-sans">.font-work-sans { font-family: 'Work Sans', sans-serif !important; }</style><link id="all-fonts-link-font-pt-serif" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&amp;display=swap"><style id="all-fonts-style-font-pt-serif">.font-pt-serif { font-family: 'PT Serif', serif !important; }</style><link id="all-fonts-link-font-geist-mono" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500;600;700&amp;display=swap"><style id="all-fonts-style-font-geist-mono">.font-geist-mono { font-family: 'Geist Mono', monospace !important; }</style><link id="all-fonts-link-font-space-mono" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&amp;display=swap"><style id="all-fonts-style-font-space-mono">.font-space-mono { font-family: 'Space Mono', monospace !important; }</style><link id="all-fonts-link-font-quicksand" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&amp;display=swap"><style id="all-fonts-style-font-quicksand">.font-quicksand { font-family: 'Quicksand', sans-serif !important; }</style><link id="all-fonts-link-font-nunito" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&amp;display=swap"><style id="all-fonts-style-font-nunito">.font-nunito { font-family: 'Nunito', sans-serif !important; }</style><link id="all-fonts-link-font-newsreader" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400..800&amp;display=swap"><style id="all-fonts-style-font-newsreader">.font-newsreader { font-family: 'Newsreader', serif !important; }</style><link id="all-fonts-link-font-google-sans-flex" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&amp;display=swap"><style id="all-fonts-style-font-google-sans-flex">.font-google-sans-flex { font-family: 'Google Sans Flex', sans-serif !important; }</style><link id="all-fonts-link-font-oswald" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&amp;display=swap"><style id="all-fonts-style-font-oswald">.font-oswald { font-family: 'Oswald', sans-serif !important; }</style><link id="all-fonts-link-font-dm-sans" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&amp;display=swap"><style id="all-fonts-style-font-dm-sans">.font-dm-sans { font-family: 'DM Sans', sans-serif !important; }</style><link id="all-fonts-link-font-manrope" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&amp;display=swap"><style id="all-fonts-style-font-manrope">.font-manrope { font-family: 'Manrope', sans-serif !important; }</style><link id="all-fonts-link-font-cormorant" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&amp;display=swap"><style id="all-fonts-style-font-cormorant">.font-cormorant { font-family: 'Cormorant Garamond', serif !important; }</style></head>
+<body class="text-gray-900 font-sans antialiased overflow-x-hidden" style="background:#E3DDD7">
+
+<!-- Navbar -->
+<nav class="md:px-12 animate-enter w-full pt-6 pr-6 pb-6 pl-6 relative z-[500]">
+  <div class="flex max-w-7xl mr-auto ml-auto relative items-center justify-between">
+    <!-- Left side: Logo -->
+    <div class="flex items-center gap-2">
+      <div class="w-8 h-8 bg-black rounded-lg flex items-center justify-center text-white">SG</div>
+      <span class="font-medium text-l tracking-tight">Social Grow</span>
+    </div>
+
+    <!-- Desktop links -->
+    <div class="hidden md:flex items-center gap-8">
+      <a href="/pricing" class="text-sm font-medium text-gray-600 hover:text-black transition-colors">Pricing</a>
+      <a href="/services" class="text-sm font-medium text-gray-600 hover:text-black transition-colors">Services</a>
+      <a href="/about" class="text-sm font-medium text-gray-600 hover:text-black transition-colors">About</a>
+    </div>
+
+    <!-- Right actions: CTA + Mobile toggle -->
+    <div class="flex items-center gap-3 z-[501] relative">
+      <a href="/contact" class="flex items-center gap-2 bg-black text-white px-4 py-2 md:px-5 md:py-2.5 rounded-full text-xs md:text-sm font-medium hover:bg-gray-800 transition-all hover:pr-6 duration-300 group">
+        Start Growing
+        <iconify-icon icon="solar:arrow-right-linear" width="16" class="group-hover:translate-x-1 transition-transform"></iconify-icon>
+      </a>
+
+      <!-- Mobile Menu Toggle Button -->
+      <button id="mobile-menu-toggle" class="md:hidden text-2xl flex items-center justify-center w-8 h-8 transition-colors" aria-label="Toggle Menu">
+        <iconify-icon icon="solar:hamburger-menu-linear"></iconify-icon>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Full Screen Menu Overlay -->
+<div id="mobile-menu" class="fixed inset-0 z-[300] flex flex-col justify-center items-center gap-8 bg-white opacity-0 pointer-events-none transition-opacity duration-300 md:hidden" aria-hidden="true">
+  <a href="/about" class="text-3xl font-medium tracking-tight text-gray-900 hover:text-gray-600 transition-colors">About</a>
+  <a href="/services" class="text-3xl font-medium tracking-tight text-gray-900 hover:text-gray-600 transition-colors">Services</a>
+  <a href="/pricing" class="text-3xl font-medium tracking-tight text-gray-900 hover:text-gray-600 transition-colors">Pricing</a>
+</div>
+
+<script>
+  // Mobile menu toggle logic (unchanged, just references the button by id)
+  (function () {
+    const toggleBtn = document.getElementById('mobile-menu-toggle');
+    const menu = document.getElementById('mobile-menu');
+    if (!toggleBtn || !menu) return;
+
+    const icon = toggleBtn.querySelector('iconify-icon');
+
+    function openMenu() {
+      menu.classList.remove('opacity-0', 'pointer-events-none');
+      menu.setAttribute('aria-hidden', 'false');
+      if (icon) icon.setAttribute('icon', 'solar:close-circle-linear');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMenu() {
+      menu.classList.add('opacity-0', 'pointer-events-none');
+      menu.setAttribute('aria-hidden', 'true');
+      if (icon) icon.setAttribute('icon', 'solar:hamburger-menu-linear');
+      document.body.style.overflow = '';
+    }
+
+    function isOpen() {
+      return !menu.classList.contains('opacity-0');
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      if (isOpen()) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isOpen()) closeMenu();
+    });
+  })();
+</script>
+
+
+
+    <!-- Main Hero -->
+    <main class="max-w-7xl mx-auto px-6 md:px-12 py-12 lg:py-20">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            
+            <!-- Left Content -->
+            <div class="flex flex-col gap-8 max-w-xl relative z-10">
+                
+                <!-- Social Badge -->
+                <div class="animate-enter delay-100 flex items-center gap-3">
+                    <div class="flex -space-x-2">
+                        <div class="w-8 h-8 rounded-full bg-white border border-gray-100 flex items-center justify-center shadow-sm z-30">
+                            <iconify-icon icon="logos:pinterest" width="14"></iconify-icon>
+                        </div>
+                        <div class="w-8 h-8 rounded-full bg-white border border-gray-100 flex items-center justify-center shadow-sm z-20">
+                            <iconify-icon icon="logos:instagram-icon" width="14"></iconify-icon>
+                        </div>
+                        <div class="w-8 h-8 rounded-full bg-white border border-gray-100 flex items-center justify-center shadow-sm z-10">
+                            <iconify-icon icon="logos:tiktok-icon" width="14"></iconify-icon>
+                        </div>
+                    </div>
+                    <span class="text-sm font-medium text-gray-500 tracking-wide uppercase">Trusted by 500+ brands</span>
+                </div>
+
+                <!-- Headline -->
+                <h1 class="animate-enter delay-200 text-6xl md:text-7xl lg:text-8xl font-semibold leading-[0.95] tracking-tight text-gray-900">
+                    Content that <br>
+                    <span class="font-serif italic font-medium">converts.</span>
+                </h1>
+
+                <!-- Subheadline -->
+                <p class="animate-enter delay-300 text-lg md:text-xl text-gray-500 leading-relaxed max-w-md">
+                    We combine data-driven strategy, creative production, and paid media to help brands explode their reach and turn followers into revenue.
+                </p>
+
+                <!-- Actions -->
+                <div class="animate-enter delay-400 flex flex-col sm:flex-row gap-4 items-start sm:items-center mt-2">
+                    <button class="bg-black text-white text-base px-8 py-4 rounded-full font-medium hover:bg-gray-800 transition-all hover:scale-105 active:scale-95 flex items-center gap-3 shadow-xl shadow-gray-200">
+                        Book a Strategy Call
+                        <iconify-icon icon="solar:calendar-add-linear" width="20"></iconify-icon>
+                    </button>
+                    <button class="px-6 py-4 text-gray-600 font-medium hover:text-black flex items-center gap-2 transition-colors">
+                        <iconify-icon icon="solar:play-circle-linear" width="24"></iconify-icon>
+                        View Showreel
+                    </button>
+                </div>
+
+                <!-- Stats Decoration -->
+                <div class="animate-enter delay-500 mt-8 pt-8 border-t border-gray-200 flex gap-12">
+                    <div>
+                        <p class="text-3xl font-bold tracking-tight">250M+</p>
+                        <p class="text-sm text-gray-500 mt-1">Views Generated</p>
+                    </div>
+                    <div>
+                        <p class="text-3xl font-bold tracking-tight">3.5x</p>
+                        <p class="text-sm text-gray-500 mt-1">Avg. ROAS</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Visual (Phone Slider) -->
+            <div class="flex lg:justify-end animate-enter delay-300 relative justify-center">
+                
+                <!-- Decorative Elements Background -->
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-tr from-orange-100/40 via-purple-100/30 to-transparent rounded-full blur-3xl pointer-events-none"></div>
+
+                <!-- Navigation Arrows -->
+                <button id="prevBtn" class="absolute left-0 md:left-12 lg:-left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-white rounded-full shadow-lg border border-gray-100 flex items-center justify-center text-gray-800 hover:scale-110 transition-transform cursor-pointer">
+                    <iconify-icon icon="solar:arrow-left-linear" width="24"></iconify-icon>
+                </button>
+                
+                <button id="nextBtn" class="absolute right-0 md:right-12 lg:-right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-black text-white rounded-full shadow-lg border border-gray-900 flex items-center justify-center hover:scale-110 transition-transform cursor-pointer">
+                    <iconify-icon icon="solar:arrow-right-linear" width="24"></iconify-icon>
+                </button>
+
+                <!-- Phone Mockup Frame -->
+                <div class="relative w-[300px] h-[600px] bg-white rounded-[2.5rem] shadow-2xl border-[8px] border-white ring-1 ring-gray-900/5 overflow-hidden transform rotate-0 hover:rotate-0 transition-transform duration-500 mr-auto ml-auto">
+
+  <!-- Dynamic Island/Notch -->
+  <div class="absolute top-0 left-1/2 -translate-x-1/2 h-6 w-28 bg-black rounded-b-xl z-30"></div>
+
+  <!-- Status Bar -->
+  <div class="absolute top-2 w-full px-5 flex justify-between text-[10px] font-semibold text-white/90 z-30 mix-blend-difference">
+    <span>9:41</span>
+    <div class="flex gap-1">
+      <iconify-icon icon="solar:signal-linear"></iconify-icon>
+      <iconify-icon icon="solar:wifi-linear"></iconify-icon>
+      <iconify-icon icon="solar:battery-full-linear"></iconify-icon>
+    </div>
+  </div>
+
+  <!-- Overlay Gradient -->
+  <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60 pointer-events-none z-20">
+  </div>
+
+  <!-- Cards Container -->
+  <div id="sliderContainer" class="w-full h-full relative bg-gray-900" style="">
+
+    <!-- Card 1: Fashion/Lifestyle -->
+    <div class="slider-card card-active w-full h-full absolute top-0 right-0 bottom-0 left-0">
+      <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&amp;w=1000&amp;auto=format&amp;fit=crop" class="w-full h-full object-cover" alt="Fashion Post">
+      <!-- Floating UI Elements -->
+      <div class="absolute top-12 left-4 flex items-center gap-2 z-20">
+        <div class="w-8 h-8 rounded-full border-2 border-white overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&amp;fit=crop&amp;w=100&amp;q=80" class="w-full h-full object-cover">
+        </div>
+        <span class="text-white text-sm font-medium drop-shadow-md">jessica_style</span>
+        <span class="text-white/60 text-xs">2h</span>
+      </div>
+      <!-- Sonar Button -->
+      <div class="absolute bottom-20 left-1/2 -translate-x-1/2 z-30">
+        <div class="relative">
+          <div class="absolute inset-0 bg-white rounded-full sonar-ring opacity-50"></div>
+          <button class="relative bg-white text-black px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wide flex items-center gap-2 shadow-lg">
+                                        View Shop
+                                        <iconify-icon icon="solar:bag-3-bold" width="14"></iconify-icon>
+                                    </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2: Tech/Product -->
+    <div class="slider-card card-hidden absolute inset-0 w-full h-full">
+      <img src="https://images.unsplash.com/photo-1550009158-9ebf69173e03?q=80&amp;w=1000&amp;auto=format&amp;fit=crop" class="w-full h-full object-cover" alt="Tech Post">
+      <div class="absolute top-12 left-4 flex items-center gap-2 z-20">
+        <div class="w-8 h-8 rounded-full border-2 border-white overflow-hidden bg-black flex items-center justify-center">
+          <iconify-icon icon="simple-icons:sony" class="text-white text-xs"></iconify-icon>
+        </div>
+        <span class="text-white text-sm font-medium drop-shadow-md">tech_daily</span>
+        <span class="text-white/60 text-xs">Sponsored</span>
+      </div>
+      <div class="absolute bottom-20 left-1/2 -translate-x-1/2 z-30">
+        <div class="relative">
+          <div class="absolute inset-0 bg-blue-500 rounded-full sonar-ring opacity-50"></div>
+          <button class="relative bg-blue-600 text-white px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wide flex items-center gap-2 shadow-lg">
+                                        Learn More
+                                        <iconify-icon icon="solar:arrow-right-up-linear" width="14"></iconify-icon>
+                                    </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3: Food/Drink -->
+    <div class="slider-card card-hidden absolute inset-0 w-full h-full">
+      <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&amp;w=1000&amp;auto=format&amp;fit=crop" class="w-full h-full object-cover" alt="Food Post">
+      <div class="absolute top-12 left-4 flex items-center gap-2 z-20">
+        <div class="w-8 h-8 rounded-full border-2 border-white overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?auto=format&amp;fit=crop&amp;w=100&amp;q=80" class="w-full h-full object-cover">
+        </div>
+        <span class="text-white text-sm font-medium drop-shadow-md">tasty_bites</span>
+        <span class="text-white/60 text-xs">5h</span>
+      </div>
+      <div class="absolute bottom-20 left-1/2 -translate-x-1/2 z-30">
+        <div class="relative">
+          <div class="absolute inset-0 bg-green-500 rounded-full sonar-ring opacity-50"></div>
+          <button class="relative bg-green-500 text-white px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wide flex items-center gap-2 shadow-lg">
+                                        Get Recipe
+                                        <iconify-icon icon="solar:chef-hat-linear" width="14"></iconify-icon>
+                                    </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Floating Reaction Icons Animation -->
+  <div class="absolute right-4 bottom-32 flex flex-col gap-4 z-20">
+    <div class="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white cursor-pointer hover:scale-110 transition-transform">
+      <iconify-icon icon="solar:heart-bold" width="20"></iconify-icon>
+    </div>
+    <div class="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white cursor-pointer hover:scale-110 transition-transform">
+      <iconify-icon icon="solar:chat-round-dots-linear" width="20"></iconify-icon>
+    </div>
+    <div class="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white cursor-pointer hover:scale-110 transition-transform">
+      <iconify-icon icon="solar:share-linear" width="20"></iconify-icon>
+    </div>
+  </div>
+
+</div>
+            </div>
+        </div>
+
+        <!-- Logos Section -->
+        <div class="mt-24 lg:mt-32 animate-enter delay-500">
+            <p class="text-xs text-gray-400 font-semibold uppercase tracking-widest mb-8">Brands we've helped grow on social</p>
+            <div class="flex flex-wrap items-center gap-x-12 gap-y-8 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+                <iconify-icon icon="simple-icons:nike" width="72" height="26"></iconify-icon>
+                <iconify-icon icon="simple-icons:shopify" width="96" height="28"></iconify-icon>
+                <iconify-icon icon="simple-icons:netflix" width="86" height="24"></iconify-icon>
+                <iconify-icon icon="simple-icons:spotify" width="96" height="28"></iconify-icon>
+                <iconify-icon icon="simple-icons:airbnb" width="96" height="30"></iconify-icon>
+                <iconify-icon icon="simple-icons:uber" width="72" height="26"></iconify-icon>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Simple Carousel Logic
+        const cards = document.querySelectorAll('.slider-card');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        let currentIndex = 0;
+        const totalCards = cards.length;
+
+        function showCard(index) {
+            cards.forEach((card, i) => {
+                if (i === index) {
+                    card.classList.remove('card-hidden');
+                    card.classList.add('card-active');
+                } else {
+                    card.classList.add('card-hidden');
+                    card.classList.remove('card-active');
+                }
+            });
+        }
+
+        function nextCard() {
+            currentIndex = (currentIndex + 1) % totalCards;
+            showCard(currentIndex);
+        }
+
+        function prevCard() {
+            currentIndex = (currentIndex - 1 + totalCards) % totalCards;
+            showCard(currentIndex);
+        }
+
+        nextBtn.addEventListener('click', () => {
+            nextCard();
+            resetInterval();
+        });
+
+        prevBtn.addEventListener('click', () => {
+            prevCard();
+            resetInterval();
+        });
+
+        let autoSlide = setInterval(nextCard, 4000);
+
+        function resetInterval() {
+            clearInterval(autoSlide);
+            autoSlide = setInterval(nextCard, 4000);
+        }
+    </script>
+
+<section class="w-full max-w-7xl mx-auto px-6 md:px-12 py-24 md:py-32 relative z-10">
+    <div class="flex flex-col md:flex-row justify-between items-end gap-6 mb-16 animate-enter">
+        <h2 class="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-gray-900 leading-[0.95]">
+            Full-service 
+            <span class="font-playfair italic font-medium">social growth.</span>
+        </h2>
+        <a href="#" class="group flex items-center gap-2 text-sm font-medium text-gray-900 border-b border-gray-900/20 pb-1 hover:border-gray-900 transition-colors">
+            View all services
+            <iconify-icon icon="solar:arrow-right-up-linear" class="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></iconify-icon>
+        </a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 animate-enter delay-100">
+        <!-- Service 1 -->
+        <div class="group bg-white/40 backdrop-blur-sm border border-white/40 p-8 rounded-[2rem] hover:bg-white transition-colors duration-500 cursor-default">
+            <div class="w-12 h-12 bg-gray-900 text-white rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500 shadow-lg shadow-gray-900/10">
+                <iconify-icon icon="solar:camera-linear" width="24"></iconify-icon>
+            </div>
+            <h3 class="text-xl font-semibold tracking-tight text-gray-900 mb-3">Content Production</h3>
+            <p class="text-gray-600 leading-relaxed text-sm">High-fidelity video and static assets tailored for the algorithm and your audience's attention span.</p>
+        </div>
+
+        <!-- Service 2 -->
+        <div class="group bg-white/40 backdrop-blur-sm border border-white/40 p-8 rounded-[2rem] hover:bg-white transition-colors duration-500 cursor-default">
+            <div class="w-12 h-12 bg-gray-900 text-white rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500 shadow-lg shadow-gray-900/10">
+                <iconify-icon icon="solar:chart-2-linear" width="24"></iconify-icon>
+            </div>
+            <h3 class="text-xl font-semibold tracking-tight text-gray-900 mb-3">Paid Strategy</h3>
+            <p class="text-gray-600 leading-relaxed text-sm">Data-driven paid media management to scale reach and convert viewers into customers efficiently.</p>
+        </div>
+
+        <!-- Service 3 -->
+        <div class="group bg-white/40 backdrop-blur-sm border border-white/40 p-8 rounded-[2rem] hover:bg-white transition-colors duration-500 cursor-default">
+            <div class="w-12 h-12 bg-gray-900 text-white rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500 shadow-lg shadow-gray-900/10">
+                <iconify-icon icon="solar:users-group-rounded-linear" width="24"></iconify-icon>
+            </div>
+            <h3 class="text-xl font-semibold tracking-tight text-gray-900 mb-3">Creator Network</h3>
+            <p class="text-gray-600 leading-relaxed text-sm">Access to 500+ vetted creators for authentic UGC and influencer campaigns that actually convert.</p>
+        </div>
+    </div>
+</section><section class="w-full max-w-7xl mx-auto px-6 md:px-12 pb-32">
+    
+    <!-- Case 1: Glowhaus -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center mb-32 animate-enter delay-200">
+        <div class="order-2 lg:order-1 flex flex-col items-start">
+            <span class="inline-block bg-[#d1c8c0] text-gray-900 px-3 py-1.5 rounded-lg text-xs font-semibold uppercase tracking-wider mb-8">Client results</span>
+            <h2 class="" leading-[0.95]="" mb-6"="">
+                Scaling a beauty  brand with <span class="font-playfair italic font-medium">reels</span>
+            </h2>
+            <p class="text-gray-500 text-lg leading-relaxed mb-10 max-w-md">
+                Beauty brand Glowhaus came to us with great products but low engagement. We developed a UGC-driven content strategy focused on short-form video, optimized for Reels.
+            </p>
+            <div class="grid grid-cols-2 gap-12 border-t border-gray-900/10 pt-8 w-full max-w-md">
+                <div>
+                    <div class="text-4xl md:text-5xl font-medium tracking-tight text-gray-900 mb-1">128K</div>
+                    <div class="text-sm font-medium text-gray-900">Reel Views</div>
+                    <div class="text-xs text-gray-500 mt-1">In the first 30 days</div>
+                </div>
+                <div>
+                    <div class="text-4xl md:text-5xl font-medium tracking-tight text-gray-900 mb-1">245%</div>
+                    <div class="text-sm font-medium text-gray-900">Engagement</div>
+                    <div class="text-xs text-gray-500 mt-1">Compared to previous month</div>
+                </div>
+            </div>
+        </div>
+        <div class="order-1 lg:order-2 relative group cursor-pointer">
+             <div class="aspect-[4/5] rounded-[2.5rem] overflow-hidden relative shadow-2xl">
+                <img src="https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?q=80&amp;w=800&amp;auto=format&amp;fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Glowhaus Campaign">
+                <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500"></div>
+                <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <span class="text-white font-playfair text-5xl md:text-6xl italic tracking-tight opacity-90 drop-shadow-xl">Glowhaus</span>
+                </div>
+             </div>
+        </div>
+    </div>
+
+    <!-- Case 2: Theo -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center animate-enter delay-300">
+        <div class="relative group cursor-pointer">
+             <div class="aspect-[4/5] rounded-[2.5rem] overflow-hidden relative shadow-2xl">
+                <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&amp;w=800&amp;auto=format&amp;fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Theo Campaign">
+                <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500"></div>
+                <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <span class="text-white font-serif text-6xl md:text-7xl italic tracking-tighter opacity-90 drop-shadow-xl" style="font-family: 'Brush Script MT', cursive;">Theo</span>
+                </div>
+             </div>
+        </div>
+        <div class="flex flex-col items-start">
+            <span class="inline-block bg-[#d1c8c0] text-gray-900 px-3 py-1.5 rounded-lg text-xs font-semibold uppercase tracking-wider mb-8">Client results</span>
+            <h2 class="text-4xl md:text-6xl font-semibold tracking-tight text-gray-900 leading-[0.95] mb-6">
+                Growing a clothing  brand with <span class="font-playfair italic font-medium">video</span>
+            </h2>
+            <p class="text-gray-500 text-lg leading-relaxed mb-10 max-w-md">
+                Theo came to us ahead of a new collection launch, looking to grow their reach and build anticipation. We combined UGC with light influencer seeding and short-form video.
+            </p>
+            <div class="grid grid-cols-2 gap-12 border-t border-gray-900/10 pt-8 w-full max-w-md">
+                <div>
+                    <div class="text-4xl md:text-5xl font-medium tracking-tight text-gray-900 mb-1">18K</div>
+                    <div class="text-sm font-medium text-gray-900">Followers</div>
+                    <div class="text-xs text-gray-500 mt-1">In six weeks</div>
+                </div>
+                <div>
+                    <div class="text-4xl md:text-5xl font-medium tracking-tight text-gray-900 mb-1">156%</div>
+                    <div class="text-sm font-medium text-gray-900">Engagement</div>
+                    <div class="text-xs text-gray-500 mt-1">Compared to previous month</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section><section class="w-full max-w-7xl mx-auto px-6 md:px-12 py-24 md:py-32">
+    <div class="flex flex-col items-center text-center mb-20 animate-enter">
+        <span class="bg-[#d1c8c0] text-gray-900 px-3 py-1.5 rounded-lg text-xs font-semibold uppercase tracking-wider mb-6">How we work</span>
+        <h2 class="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-gray-900 leading-[0.95] max-w-2xl">
+            We like to keep things 
+            <span class="font-playfair italic font-medium">nice</span> and simple
+        </h2>
+    </div>
+
+    <div class="relative grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 lg:gap-12 animate-enter delay-100">
+        <!-- Connecting Line (Desktop) -->
+        <svg class="hidden md:block absolute top-12 left-0 w-full h-24 text-gray-900/10 pointer-events-none z-0" preserveAspectRatio="none">
+            <path d="M150,20 C300,80 500,-40 650,20 C800,80 1000,-40 1150,20" stroke="currentColor" stroke-width="2" fill="none" stroke-dasharray="8 8"></path>
+        </svg>
+
+        <!-- Step 1 -->
+        <div class="relative z-10 flex flex-col items-center text-center group">
+            <div class="w-20 h-20 bg-white rounded-[2rem] flex items-center justify-center shadow-lg shadow-gray-900/5 mb-8 group-hover:scale-110 transition-transform duration-500">
+                <iconify-icon icon="solar:target-linear" width="32" class="text-gray-900"></iconify-icon>
+            </div>
+            <h3 class="text-xl font-semibold tracking-tight text-gray-900 mb-3">Strategy First</h3>
+            <p class="text-gray-600 text-sm leading-relaxed max-w-xs">We align on goals, audience, and content direction before anything goes live.</p>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="relative z-10 flex flex-col items-center text-center group">
+            <div class="w-20 h-20 bg-black text-white rounded-[2rem] flex items-center justify-center shadow-lg shadow-gray-900/20 mb-8 group-hover:scale-110 transition-transform duration-500">
+                <iconify-icon icon="solar:smartphone-linear" width="32"></iconify-icon>
+            </div>
+            <h3 class="text-xl font-semibold tracking-tight text-gray-900 mb-3">Create &amp; Manage</h3>
+            <p class="text-gray-600 text-sm leading-relaxed max-w-xs">We handle the production, scheduling, and posting across all key platforms.</p>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="relative z-10 flex flex-col items-center text-center group">
+            <div class="w-20 h-20 bg-white rounded-[2rem] flex items-center justify-center shadow-lg shadow-gray-900/5 mb-8 group-hover:scale-110 transition-transform duration-500">
+                <iconify-icon icon="solar:graph-new-linear" width="32" class="text-gray-900"></iconify-icon>
+            </div>
+            <h3 class="text-xl font-semibold tracking-tight text-gray-900 mb-3">Review &amp; Refine</h3>
+            <p class="text-gray-600 text-sm leading-relaxed max-w-xs">We track performance, learn what's working, and adjust as needed.</p>
+        </div>
+    </div>
+</section><section class="w-full max-w-7xl mx-auto px-6 md:px-12 pb-32">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch animate-enter">
+        <!-- Quote Card -->
+        <div class="bg-[#efeae5] rounded-[2.5rem] p-10 md:p-16 flex flex-col justify-center relative overflow-hidden">
+            <div class="w-12 h-12 bg-black text-white rounded-xl flex items-center justify-center mb-10">
+                <iconify-icon icon="solar:quote-up-bold" width="24"></iconify-icon>
+            </div>
+            <h3 class="text-3xl md:text-4xl font-medium tracking-tight text-gray-900 leading-tight mb-8 relative z-10">
+                They took social media off our plate completely and our audience has never been <span class="font-playfair italic font-medium">more engaged.</span>
+            </h3>
+            <div class="flex items-center gap-3 mt-auto">
+                <div>
+                    <p class="text-sm font-semibold text-gray-900 uppercase tracking-wide">Elena Chen</p>
+                    <p class="text-sm text-gray-500">Bloom Skincare</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Image Card -->
+        <div class="rounded-[2.5rem] overflow-hidden min-h-[400px] relative group">
+            <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/917d6f93-fb36-439a-8c48-884b67b35381_1600w.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Testimonial Visual">
+            <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500"></div>
+            <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <span class="text-white font-playfair text-6xl italic tracking-tight opacity-90 drop-shadow-lg transform -rotate-6">Bloom</span>
+            </div>
+        </div>
+    </div>
+</section><section class="w-full max-w-7xl mx-auto px-6 md:px-12 py-24 border-t border-gray-900/5">
+    <div class="flex flex-col items-center text-center mb-16 animate-enter">
+        <span class="bg-[#d1c8c0] text-gray-900 px-3 py-1.5 rounded-lg text-xs font-semibold uppercase tracking-wider mb-6">The difference</span>
+        <h2 class="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-gray-900 leading-[0.95]">
+            Why choose Social Grow 
+            over <span class="font-playfair italic font-medium">everyone</span> else?
+        </h2>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 animate-enter delay-100">
+        <!-- Other Agencies -->
+        <div class="bg-gray-100/50 rounded-[2rem] p-8 md:p-12">
+            <h3 class="text-2xl font-semibold text-gray-400 mb-8 flex items-center gap-3">
+                Other Agencies
+            </h3>
+            <ul class="space-y-5">
+                <li class="flex items-start gap-4 text-gray-500">
+                    <iconify-icon icon="solar:close-circle-bold" width="20" class="mt-0.5 text-gray-300"></iconify-icon>
+                    <span>Generic content templates</span>
+                </li>
+                <li class="flex items-start gap-4 text-gray-500">
+                    <iconify-icon icon="solar:close-circle-bold" width="20" class="mt-0.5 text-gray-300"></iconify-icon>
+                    <span>Monthly reporting only</span>
+                </li>
+                <li class="flex items-start gap-4 text-gray-500">
+                    <iconify-icon icon="solar:close-circle-bold" width="20" class="mt-0.5 text-gray-300"></iconify-icon>
+                    <span>Separate teams for different platforms</span>
+                </li>
+                <li class="flex items-start gap-4 text-gray-500">
+                    <iconify-icon icon="solar:close-circle-bold" width="20" class="mt-0.5 text-gray-300"></iconify-icon>
+                    <span>Long-term contracts required</span>
+                </li>
+                <li class="flex items-start gap-4 text-gray-500">
+                    <iconify-icon icon="solar:close-circle-bold" width="20" class="mt-0.5 text-gray-300"></iconify-icon>
+                    <span>One-size-fits-all approach</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Social Grow -->
+        <div class="bg-white rounded-[2rem] p-8 md:p-12 shadow-xl shadow-gray-900/5 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1 bg-black"></div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-8 flex items-center gap-3">
+                <iconify-icon icon="solar:star-bold" width="24"></iconify-icon>
+                Social Grow
+            </h3>
+            <ul class="space-y-5">
+                <li class="flex items-start gap-4 text-gray-900 font-medium">
+                    <iconify-icon icon="solar:check-circle-bold" width="20" class="mt-0.5 text-black"></iconify-icon>
+                    <span>Custom content for your brand</span>
+                </li>
+                <li class="flex items-start gap-4 text-gray-900 font-medium">
+                    <iconify-icon icon="solar:check-circle-bold" width="20" class="mt-0.5 text-black"></iconify-icon>
+                    <span>Real-time performance tracking</span>
+                </li>
+                <li class="flex items-start gap-4 text-gray-900 font-medium">
+                    <iconify-icon icon="solar:check-circle-bold" width="20" class="mt-0.5 text-black"></iconify-icon>
+                    <span>Integrated cross-platform strategy</span>
+                </li>
+                <li class="flex items-start gap-4 text-gray-900 font-medium">
+                    <iconify-icon icon="solar:check-circle-bold" width="20" class="mt-0.5 text-black"></iconify-icon>
+                    <span>Flexible month-to-month options</span>
+                </li>
+                <li class="flex items-start gap-4 text-gray-900 font-medium">
+                    <iconify-icon icon="solar:check-circle-bold" width="20" class="mt-0.5 text-black"></iconify-icon>
+                    <span>Tailored to your specific goals</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Mini Brand Strip -->
+    <div class="mt-16 text-center">
+        <p class="text-[10px] text-gray-400 font-semibold uppercase tracking-widest mb-6">Brands we've helped grow on social</p>
+        <div class="flex justify-center items-center gap-8 md:gap-16 opacity-40 grayscale">
+            <iconify-icon icon="simple-icons:sony" width="60"></iconify-icon>
+            <iconify-icon icon="simple-icons:samsung" width="80"></iconify-icon>
+            <iconify-icon icon="simple-icons:canon" width="60"></iconify-icon>
+            <iconify-icon icon="simple-icons:braun" width="60"></iconify-icon>
+        </div>
+    </div>
+</section><section class="w-full max-w-7xl mx-auto px-6 md:px-12 py-24">
+    <div class="flex flex-col items-center text-center mb-16 animate-enter">
+        <span class="bg-[#d1c8c0] text-gray-900 px-3 py-1.5 rounded-lg text-xs font-semibold uppercase tracking-wider mb-6">Our team</span>
+        <h2 class="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-gray-900 leading-[0.95]">
+            Meet the team 
+            behind your <span class="font-playfair italic font-medium">success.</span>
+        </h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 animate-enter delay-100">
+        <!-- Member 1 -->
+        <div class="group cursor-pointer">
+            <div class="aspect-[3/4] rounded-[2rem] overflow-hidden mb-6 relative">
+                <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&amp;w=800&amp;auto=format&amp;fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Sofia Little">
+            </div>
+            <h3 class="text-xl font-bold tracking-tight text-gray-900">Sofia Little</h3>
+            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-1">Creative Lead</p>
+        </div>
+
+        <!-- Member 2 -->
+        <div class="group cursor-pointer">
+            <div class="aspect-[3/4] rounded-[2rem] overflow-hidden mb-6 relative">
+                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&amp;w=800&amp;auto=format&amp;fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="James Cohen">
+            </div>
+            <h3 class="text-xl font-bold tracking-tight text-gray-900">James Cohen</h3>
+            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-1">Founder &amp; CEO</p>
+        </div>
+
+        <!-- Member 3 -->
+        <div class="group cursor-pointer">
+            <div class="aspect-[3/4] rounded-[2rem] overflow-hidden mb-6 relative">
+                <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&amp;w=800&amp;auto=format&amp;fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Maya Rodriguez">
+            </div>
+            <h3 class="text-xl font-bold tracking-tight text-gray-900">Maya Rodriguez</h3>
+            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-1">Growth Specialist</p>
+        </div>
+    </div>
+
+    <!-- Hiring Banner -->
+    <div class="mt-12 bg-[#efeae5] rounded-full px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-4 max-w-2xl mx-auto animate-enter delay-200">
+        <div class="text-center md:text-left">
+            <p class="font-bold text-gray-900 text-sm">Want to be part of the team?</p>
+            <p class="text-xs text-gray-500 mt-0.5">We're always looking for talented strategists and growth experts.</p>
+        </div>
+        <button class="bg-black text-white text-xs font-bold px-6 py-3 rounded-full hover:scale-105 transition-transform whitespace-nowrap">
+            Apply now
+        </button>
+    </div>
+</section><section class="w-full max-w-3xl mx-auto px-6 md:px-12 py-24 relative">
+    <div class="absolute -top-12 right-0 md:-right-12 w-16 h-16 bg-black rounded-2xl flex items-center justify-center text-white rotate-12 shadow-xl z-10 hidden md:flex">
+        <iconify-icon icon="solar:chat-square-like-bold" width="32"></iconify-icon>
+    </div>
+
+    <div class="mb-16 animate-enter">
+        <span class="bg-[#d1c8c0] text-gray-900 px-3 py-1.5 rounded-lg text-xs font-semibold uppercase tracking-wider mb-6 inline-block">Questions</span>
+        <h2 class="text-4xl md:text-5xl font-semibold tracking-tight text-gray-900 leading-[0.95] mt-6">
+            Frequently 
+            Asked <span class="font-playfair italic font-medium">Questions</span>
+        </h2>
+    </div>
+
+    <div class="flex flex-col gap-4 animate-enter delay-100">
+        <!-- Question 1 -->
+        <details class="group bg-[#efeae5] rounded-2xl overflow-hidden transition-all duration-300 open:pb-4">
+            <summary class="flex justify-between items-center p-6 cursor-pointer list-none font-medium text-gray-900 hover:text-black">
+                How quickly will we see results?
+                <div class="w-8 h-8 rounded-full bg-black/5 flex items-center justify-center group-open:rotate-45 transition-transform duration-300">
+                    <iconify-icon icon="solar:add-linear" width="20"></iconify-icon>
+                </div>
+            </summary>
+            <div class="px-6 text-sm text-gray-600 leading-relaxed max-w-xl">
+                While every brand is different, most of our clients see a significant uptake in engagement and reach within the first 30 days. Revenue impact typically scales from month 2 onwards.
+            </div>
+        </details>
+
+        <!-- Question 2 -->
+        <details class="group bg-[#efeae5] rounded-2xl overflow-hidden transition-all duration-300 open:pb-4">
+            <summary class="flex justify-between items-center p-6 cursor-pointer list-none font-medium text-gray-900 hover:text-black">
+                What platforms do you manage?
+                <div class="w-8 h-8 rounded-full bg-black/5 flex items-center justify-center group-open:rotate-45 transition-transform duration-300">
+                    <iconify-icon icon="solar:add-linear" width="20"></iconify-icon>
+                </div>
+            </summary>
+            <div class="px-6 text-sm text-gray-600 leading-relaxed max-w-xl">
+                We specialize in short-form video platforms: TikTok, Instagram (Reels), and YouTube Shorts. We also manage paid acquisition across Meta and TikTok Ads.
+            </div>
+        </details>
+
+        <!-- Question 3 -->
+        <details class="group bg-[#efeae5] rounded-2xl overflow-hidden transition-all duration-300 open:pb-4">
+            <summary class="flex justify-between items-center p-6 cursor-pointer list-none font-medium text-gray-900 hover:text-black">
+                Do you work with our industry?
+                <div class="w-8 h-8 rounded-full bg-black/5 flex items-center justify-center group-open:rotate-45 transition-transform duration-300">
+                    <iconify-icon icon="solar:add-linear" width="20"></iconify-icon>
+                </div>
+            </summary>
+            <div class="px-6 text-sm text-gray-600 leading-relaxed max-w-xl">
+                We have deep experience in DTC E-commerce, Fashion, Beauty, Tech, and Lifestyle brands. If you have a visual product, we can help it grow.
+            </div>
+        </details>
+
+        <!-- Question 4 -->
+        <details class="group bg-[#efeae5] rounded-2xl overflow-hidden transition-all duration-300 open:pb-4">
+            <summary class="flex justify-between items-center p-6 cursor-pointer list-none font-medium text-gray-900 hover:text-black">
+                What if we want to cancel?
+                <div class="w-8 h-8 rounded-full bg-black/5 flex items-center justify-center group-open:rotate-45 transition-transform duration-300">
+                    <iconify-icon icon="solar:add-linear" width="20"></iconify-icon>
+                </div>
+            </summary>
+            <div class="px-6 text-sm text-gray-600 leading-relaxed max-w-xl">
+                We offer flexible month-to-month contracts. We believe in earning your business every single month through results, not locking you in with paperwork.
+            </div>
+        </details>
+        
+        <!-- Question 5 -->
+        <details class="group bg-[#efeae5] rounded-2xl overflow-hidden transition-all duration-300 open:pb-4">
+            <summary class="flex justify-between items-center p-6 cursor-pointer list-none font-medium text-gray-900 hover:text-black">
+                How involved do we need to be?
+                <div class="w-8 h-8 rounded-full bg-black/5 flex items-center justify-center group-open:rotate-45 transition-transform duration-300">
+                    <iconify-icon icon="solar:add-linear" width="20"></iconify-icon>
+                </div>
+            </summary>
+            <div class="px-6 text-sm text-gray-600 leading-relaxed max-w-xl">
+                As involved as you like. We have a streamlined approval process, but we're fully capable of running the show autonomously once we align on the initial strategy.
+            </div>
+        </details>
+    </div>
+</section><footer class="w-full max-w-7xl mx-auto px-6 md:px-12 pb-12 pt-24">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-24 animate-enter">
+        <!-- Left CTA Card -->
+        <div class="bg-[#efeae5] rounded-[2.5rem] p-12 md:p-20 flex flex-col justify-center items-start text-left relative overflow-hidden">
+             <!-- Decorative Icon -->
+             <div class="absolute top-12 left-12 w-16 h-16 bg-black text-white rounded-2xl flex items-center justify-center mb-8 rotate-3">
+                <iconify-icon icon="solar:stars-minimalistic-bold" width="32"></iconify-icon>
+            </div>
+            
+            <div class="mt-20">
+                <span class="bg-white/50 border border-white/50 text-gray-900 px-3 py-1.5 rounded-lg text-xs font-semibold uppercase tracking-wider mb-6 inline-block">Get started</span>
+                <h2 class="text-4xl md:text-5xl font-semibold tracking-tight text-gray-900 leading-[0.95] mb-8">
+                    Your viral journey 
+                    starts <span class="font-playfair italic font-medium">right here.</span>
+                </h2>
+                <p class="text-gray-500 mb-10 max-w-sm">Book a free 30 min strategy call and we'll show you how to turn followers into customers.</p>
+                <button class="bg-black text-white px-8 py-4 rounded-full font-medium hover:bg-gray-800 transition-all hover:scale-105 active:scale-95 flex items-center gap-3 shadow-xl">
+                    Book a call
+                </button>
+            </div>
+        </div>
+
+        <!-- Right Visual Card -->
+        <div class="bg-[#efeae5] rounded-[2.5rem] relative overflow-hidden flex items-center justify-center min-h-[500px] group">
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white/80 via-transparent to-transparent opacity-60"></div>
+            
+            <!-- Phone Mockup Illustration -->
+            <div class="relative w-[280px] rotate-[-12deg] group-hover:rotate-0 transition-all duration-700 ease-out transform group-hover:scale-105">
+                <div class="bg-gray-900 rounded-[3rem] p-3 shadow-2xl ring-1 ring-white/20">
+                    <div class="bg-white rounded-[2.5rem] overflow-hidden relative aspect-[9/19] border border-gray-100">
+                        <!-- Screen Content Placeholder -->
+                        <div class="p-6 flex flex-col gap-4">
+                            <div class="flex items-center gap-3 mb-2">
+                                <div class="w-8 h-8 rounded-full bg-gray-200"></div>
+                                <div class="h-3 w-24 bg-gray-100 rounded-full"></div>
+                            </div>
+                            <div class="w-full aspect-square bg-gray-100 rounded-2xl mb-2"></div>
+                            <div class="flex gap-2 mb-2">
+                                <div class="w-8 h-8 rounded-full bg-red-100 text-red-500 flex items-center justify-center"><iconify-icon icon="solar:heart-bold"></iconify-icon></div>
+                                <div class="w-8 h-8 rounded-full bg-gray-100"></div>
+                                <div class="w-8 h-8 rounded-full bg-gray-100"></div>
+                            </div>
+                            <div class="h-2 w-full bg-gray-100 rounded-full"></div>
+                            <div class="h-2 w-3/4 bg-gray-100 rounded-full"></div>
+                        </div>
+                        
+                        <!-- Floating Notification -->
+                        <div class="absolute bottom-12 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur-md border border-gray-100 shadow-lg rounded-2xl p-3 flex items-center gap-3 w-[90%] animate-pulse">
+                            <div class="w-10 h-10 bg-black rounded-full flex items-center justify-center text-white">
+                                <iconify-icon icon="solar:graph-up-linear"></iconify-icon>
+                            </div>
+                            <div>
+                                <div class="text-[10px] text-gray-500 font-semibold uppercase">Growth Alert</div>
+                                <div class="text-xs font-bold text-gray-900">+128% Engagement</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Links -->
+    <div class="border-t border-gray-900/10 pt-16 flex flex-col md:flex-row justify-between gap-12 md:gap-24 animate-enter delay-200">
+        <div class="max-w-xs">
+            <div class="flex items-center gap-2 mb-6 cursor-pointer">
+                <div class="w-6 h-6 bg-black rounded flex items-center justify-center text-white">
+                    <iconify-icon icon="solar:graph-up-linear" width="14"></iconify-icon>
+                </div>
+                <span class="font-bold text-lg tracking-tight">Social Grow</span>
+            </div>
+            <h4 class="text-xl font-semibold tracking-tight text-gray-900 leading-tight mb-4">
+                Social media that drives <span class="font-playfair italic font-medium">real</span> results.
+            </h4>
+            <p class="text-xs text-gray-500 mb-6">Built for creators, businesses, and brands.</p>
+            <div class="flex gap-3">
+                <a href="#" class="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center hover:bg-gray-800 transition-colors">
+                    <iconify-icon icon="simple-icons:x" width="16"></iconify-icon>
+                </a>
+                <a href="#" class="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center hover:bg-gray-800 transition-colors">
+                    <iconify-icon icon="simple-icons:instagram" width="16"></iconify-icon>
+                </a>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-12 md:gap-24 w-full md:w-auto">
+            <div class="flex flex-col gap-4">
+                <span class="text-xs font-bold text-gray-900 uppercase tracking-wider">Navigate</span>
+                <a href="#" class="text-sm text-gray-500 hover:text-black transition-colors">Home</a>
+                <a href="#" class="text-sm text-gray-500 hover:text-black transition-colors">About</a>
+                <a href="#" class="text-sm text-gray-500 hover:text-black transition-colors">Case Studies</a>
+                <a href="#" class="text-sm text-gray-500 hover:text-black transition-colors">Blog</a>
+            </div>
+            <div class="flex flex-col gap-4">
+                <span class="text-xs font-bold text-gray-900 uppercase tracking-wider">Connect</span>
+                <a href="#" class="text-sm text-gray-500 hover:text-black transition-colors">Book a call</a>
+                <a href="#" class="text-sm text-gray-500 hover:text-black transition-colors">Instagram</a>
+                <a href="#" class="text-sm text-gray-500 hover:text-black transition-colors">LinkedIn</a>
+                <a href="#" class="text-sm text-gray-500 hover:text-black transition-colors">Twitter</a>
+            </div>
+            <div class="flex flex-col gap-4">
+                <span class="text-xs font-bold text-gray-900 uppercase tracking-wider">Legal</span>
+                <a href="#" class="text-sm text-gray-500 hover:text-black transition-colors">Privacy Policy</a>
+                <a href="#" class="text-sm text-gray-500 hover:text-black transition-colors">Terms of Service</a>
+                <a href="#" class="text-sm text-gray-500 hover:text-black transition-colors">Contact</a>
+                <a href="#" class="text-sm text-gray-500 hover:text-black transition-colors">404</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mt-16 pt-8 border-t border-gray-900/5 flex justify-between text-[10px] text-gray-400 font-medium">
+        <span>© 2025 Social Grow. All rights reserved.</span>
+        <span>Designed with intention.</span>
+    </div>
+</footer></body></html>

@@ -1,0 +1,51 @@
+{
+  "pages": {
+    "/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/page.js"
+    ],
+    "/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/layout.css",
+      "static/chunks/app/layout.js"
+    ],
+    "/items/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/items/page.css",
+      "static/chunks/app/items/page.js"
+    ],
+    "/accounts/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/accounts/page.css",
+      "static/chunks/app/accounts/page.js"
+    ],
+    "/items/new/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/items/new/page.css",
+      "static/chunks/app/items/new/page.js"
+    ],
+    "/categories/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/categories/page.css",
+      "static/chunks/app/categories/page.js"
+    ],
+    "/items/[id]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/items/[id]/page.css",
+      "static/chunks/app/items/[id]/page.js"
+    ],
+    "/items/[id]/edit/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/items/[id]/edit/page.css",
+      "static/chunks/app/items/[id]/edit/page.js"
+    ]
+  }
+}
