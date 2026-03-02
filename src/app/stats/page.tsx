@@ -81,10 +81,10 @@ export default function StatsPage() {
   }, [accounts, items]);
 
   return (
-    <div className="min-h-screen pb-24" style={{ background: '#E8E4DD' }}>
+    <div className="min-h-screen pb-24" style={{ background: 'linear-gradient(180deg, #ffffff 0%, #f0f0f0 100%)' }}>
       <div 
-        className="relative px-6 pt-14 pb-10"
-        style={{ background: 'linear-gradient(180deg, #F5F2ED 0%, #E8E4DD 100%)' }}
+        className="relative px-6 pt-14 pb-12"
+        style={{ background: 'transparent' }}
       >
         <div className="relative z-10">
           <h1 className="text-2xl font-bold tracking-tight" style={{ color: '#0f172a' }}>利润统计</h1>

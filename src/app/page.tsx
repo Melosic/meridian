@@ -72,7 +72,10 @@ export default function HomePage() {
               </div>
               <div className="text-xs mt-2 font-semibold" style={{ color: '#64748b' }}>总利润</div>
             </div>
-            <div className="stat-card p-4 text-center cursor-default">
+            <div 
+              className="stat-card p-4 text-center cursor-pointer"
+              onClick={() => router.push('/stats')}
+            >
               <div className="text-2xl font-bold" style={{ background: 'linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{totalStats.settledCount}</div>
               <div className="text-xs mt-2 font-semibold" style={{ color: '#64748b' }}>已结算</div>
             </div>
