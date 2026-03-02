@@ -221,7 +221,6 @@ export default function SettlementPage() {
       >
         <div className="relative z-10">
           <h1 className="text-2xl font-bold tracking-tight" style={{ color: '#0f172a' }}>内部结算</h1>
-          <p className="text-sm mt-2 font-light" style={{ color: '#64748b' }}>管理交易结算</p>
         </div>
       </div>
 

@@ -96,16 +96,12 @@ export default function AccountsPage() {
       >
         <div className="relative z-10">
           <h1 className="text-2xl font-bold tracking-tight" style={{ color: '#0f172a' }}>账号管理</h1>
-          <p className="text-sm mt-2 font-light" style={{ color: '#64748b' }}>管理交易账号</p>
         </div>
       </div>
 
       <div className="px-5 -mt-6 relative z-10">
         {accounts.length === 0 ? (
-          <div className="empty-state-card cursor-pointer" onClick={() => setAddDialogVisible(true)}>
-            <div className="w-20 h-20 mx-auto mb-5 rounded-[2rem] flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.5)' }}>
-              <span className="text-4xl">👤</span>
-            </div>
+          <div className="empty-state-card cursor-pointer flex flex-col items-center justify-center py-12" onClick={() => setAddDialogVisible(true)}>
             <div className="text-slate-500 mb-6 font-semibold text-lg">暂无账号</div>
             <button 
               onClick={() => setAddDialogVisible(true)}

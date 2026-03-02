@@ -279,10 +279,7 @@ export default function ItemsPage() {
 
       <div className="px-5">
         {filteredItems.length === 0 ? (
-          <div className="empty-state-card cursor-pointer" onClick={() => router.push('/items/new')}>
-            <div className="w-20 h-20 mx-auto mb-5 rounded-[2rem] flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.5)' }}>
-              <span className="text-4xl">📦</span>
-            </div>
+          <div className="empty-state-card cursor-pointer flex flex-col items-center justify-center py-12" onClick={() => router.push('/items/new')}>
             <div className="text-slate-500 mb-6 font-semibold text-lg">暂无商品</div>
             <button 
               onClick={() => router.push('/items/new')}

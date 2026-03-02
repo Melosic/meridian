@@ -146,113 +146,149 @@ export default function NewItemPage() {
       </div>
 
       <div className="px-4 pt-2">
-        <div className="glass-card p-5 mb-4">
-          <div className="space-y-4">
+        <div className="p-5 mb-4" style={{ background: '#fff', borderRadius: 20, boxShadow: '0 1px 3px rgba(0,0,0,0.08)' }}>
+          <div className="space-y-5">
             <div>
-              <div className="text-sm mb-2" style={{ color: '#666' }}>商品名称 <span style={{ color: '#ef4444' }}>*</span></div>
+              <div className="text-sm mb-2 font-medium" style={{ color: '#374151' }}>商品名称 <span style={{ color: '#ef4444' }}>*</span></div>
               <Input
                 placeholder="请输入商品名称"
                 value={name}
                 onChange={setName}
                 style={{ 
-                  borderRadius: 12,
-                  '--placeholder-color': '#bbb',
-                  background: 'rgba(0,0,0,0.03)',
-                  height: 44,
-                }}
+                  borderRadius: 16,
+                  '--placeholder-color': '#9ca3af',
+                  background: '#f9fafb',
+                  height: 48,
+                  border: '1px solid #e5e7eb',
+                  padding: '0 16px',
+                } as any}
               />
             </div>
 
             <div>
-              <div className="text-sm mb-2" style={{ color: '#666' }}>商品分类</div>
-              <Selector
-                options={[
-                  { label: '无分类', value: '' },
-                  ...categories.map((c) => ({ label: c.name, value: c.id })),
-                ]}
-                value={[categoryId]}
-                onChange={(val) => setCategoryId(val[0] || '')}
-              />
+              <div className="text-sm mb-2 font-medium" style={{ color: '#374151' }}>商品分类</div>
+              <div style={{ 
+                background: '#f9fafb',
+                borderRadius: 16,
+                border: '1px solid #e5e7eb',
+                padding: '12px',
+              }}>
+                <Selector
+                  options={[
+                    { label: '无分类', value: '' },
+                    ...categories.map((c) => ({ label: c.name, value: c.id })),
+                  ]}
+                  value={[categoryId]}
+                  onChange={(val) => setCategoryId(val[0] || '')}
+                />
+              </div>
             </div>
 
             <div>
-              <div className="text-sm mb-2" style={{ color: '#666' }}>购买账号 <span style={{ color: '#ef4444' }}>*</span></div>
-              <Selector
-                options={buyAccounts.map((a) => ({ label: a.name, value: a.id }))}
-                value={[buyAccountId]}
-                onChange={(val) => setBuyAccountId(val[0] || '')}
-              />
+              <div className="text-sm mb-2 font-medium" style={{ color: '#374151' }}>购买账号 <span style={{ color: '#ef4444' }}>*</span></div>
+              <div style={{ 
+                background: '#f9fafb',
+                borderRadius: 16,
+                border: '1px solid #e5e7eb',
+                padding: '12px',
+              }}>
+                <Selector
+                  options={buyAccounts.map((a) => ({ label: a.name, value: a.id }))}
+                  value={[buyAccountId]}
+                  onChange={(val) => setBuyAccountId(val[0] || '')}
+                />
+              </div>
             </div>
 
             <div>
-              <div className="text-sm mb-2" style={{ color: '#666' }}>销售账号 <span style={{ color: '#ef4444' }}>*</span></div>
-              <Selector
-                options={sellAccounts.map((a) => ({ label: a.name, value: a.id }))}
-                value={[sellAccountId]}
-                onChange={(val) => setSellAccountId(val[0] || '')}
-              />
+              <div className="text-sm mb-2 font-medium" style={{ color: '#374151' }}>销售账号 <span style={{ color: '#ef4444' }}>*</span></div>
+              <div style={{ 
+                background: '#f9fafb',
+                borderRadius: 16,
+                border: '1px solid #e5e7eb',
+                padding: '12px',
+              }}>
+                <Selector
+                  options={sellAccounts.map((a) => ({ label: a.name, value: a.id }))}
+                  value={[sellAccountId]}
+                  onChange={(val) => setSellAccountId(val[0] || '')}
+                />
+              </div>
             </div>
 
             <div>
-              <div className="text-sm mb-2" style={{ color: '#666' }}>邮费支付账号 <span style={{ color: '#ef4444' }}>*</span></div>
-              <Selector
-                options={shippingAccounts.map((a) => ({ label: a.name, value: a.id }))}
-                value={[shippingAccountId]}
-                onChange={(val) => setShippingAccountId(val[0] || '')}
-              />
+              <div className="text-sm mb-2 font-medium" style={{ color: '#374151' }}>邮费支付账号 <span style={{ color: '#ef4444' }}>*</span></div>
+              <div style={{ 
+                background: '#f9fafb',
+                borderRadius: 16,
+                border: '1px solid #e5e7eb',
+                padding: '12px',
+              }}>
+                <Selector
+                  options={shippingAccounts.map((a) => ({ label: a.name, value: a.id }))}
+                  value={[shippingAccountId]}
+                  onChange={(val) => setShippingAccountId(val[0] || '')}
+                />
+              </div>
             </div>
 
             <div className="grid grid-cols-3 gap-3">
               <div>
-                <div className="text-sm mb-2" style={{ color: '#666' }}>售价 <span style={{ color: '#ef4444' }}>*</span></div>
+                <div className="text-sm mb-2 font-medium" style={{ color: '#374151' }}>售价 <span style={{ color: '#ef4444' }}>*</span></div>
                 <Input
                   type="number"
                   placeholder="0"
                   value={price}
                   onChange={setPrice}
                   style={{ 
-                    borderRadius: 12,
-                    '--placeholder-color': '#bbb',
-                    background: 'rgba(0,0,0,0.03)',
-                    height: 44,
-                  }}
+                    borderRadius: 16,
+                    '--placeholder-color': '#9ca3af',
+                    background: '#f9fafb',
+                    height: 48,
+                    border: '1px solid #e5e7eb',
+                    padding: '0 16px',
+                  } as any}
                 />
               </div>
               <div>
-                <div className="text-sm mb-2" style={{ color: '#666' }}>成本 <span style={{ color: '#ef4444' }}>*</span></div>
+                <div className="text-sm mb-2 font-medium" style={{ color: '#374151' }}>成本 <span style={{ color: '#ef4444' }}>*</span></div>
                 <Input
                   type="number"
                   placeholder="0"
                   value={cost}
                   onChange={setCost}
                   style={{ 
-                    borderRadius: 12,
-                    '--placeholder-color': '#bbb',
-                    background: 'rgba(0,0,0,0.03)',
-                    height: 44,
-                  }}
+                    borderRadius: 16,
+                    '--placeholder-color': '#9ca3af',
+                    background: '#f9fafb',
+                    height: 48,
+                    border: '1px solid #e5e7eb',
+                    padding: '0 16px',
+                  } as any}
                 />
               </div>
               <div>
-                <div className="text-sm mb-2" style={{ color: '#666' }}>邮费 <span style={{ color: '#ef4444' }}>*</span></div>
+                <div className="text-sm mb-2 font-medium" style={{ color: '#374151' }}>邮费 <span style={{ color: '#ef4444' }}>*</span></div>
                 <Input
                   type="number"
                   placeholder="0"
                   value={shipping}
                   onChange={setShipping}
                   style={{ 
-                    borderRadius: 12,
-                    '--placeholder-color': '#bbb',
-                    background: 'rgba(0,0,0,0.03)',
-                    height: 44,
-                  }}
+                    borderRadius: 16,
+                    '--placeholder-color': '#9ca3af',
+                    background: '#f9fafb',
+                    height: 48,
+                    border: '1px solid #e5e7eb',
+                    padding: '0 16px',
+                  } as any}
                 />
               </div>
             </div>
 
-            <div className="glass-card p-4" style={{ background: profit >= 0 ? 'rgba(16,185,129,0.08)' : 'rgba(239,68,68,0.08)' }}>
+            <div className="p-4">
               <div className="flex justify-between items-center">
-                <span className="text-sm font-medium" style={{ color: '#666' }}>预计利润</span>
+                <span className="text-sm font-medium" style={{ color: '#374151' }}>利润</span>
                 <span className={`text-xl font-bold ${profit >= 0 ? 'profit-text' : 'loss-text'}`}>
                   ¥{profit.toFixed(2)}
                 </span>
@@ -260,7 +296,7 @@ export default function NewItemPage() {
             </div>
 
             <div>
-              <div className="text-sm mb-2" style={{ color: '#666' }}>商品图片 <span className="text-xs" style={{ color: '#999' }}>(最多5张)</span></div>
+              <div className="text-sm mb-2 font-medium" style={{ color: '#374151' }}>商品图片 <span className="text-xs" style={{ color: '#9ca3af' }}>(最多5张)</span></div>
               <ImageUploader
                 value={images}
                 onChange={setImages}
@@ -270,11 +306,12 @@ export default function NewItemPage() {
                   const compressed = await compressImage(file, 500);
                   return { url: compressed };
                 }}
+                style={{ '--adm-image-uploader-add-icon-color': '#9ca3af' } as any}
               />
             </div>
 
             <div>
-              <div className="text-sm mb-2" style={{ color: '#666' }}>备注</div>
+              <div className="text-sm mb-2 font-medium" style={{ color: '#374151' }}>备注</div>
               <TextArea
                 placeholder="可选填写备注信息"
                 value={remark}
@@ -282,10 +319,12 @@ export default function NewItemPage() {
                 maxLength={200}
                 rows={3}
                 style={{ 
-                  borderRadius: 12,
-                  '--placeholder-color': '#bbb',
-                  background: 'rgba(0,0,0,0.03)',
-                }}
+                  borderRadius: 16,
+                  '--placeholder-color': '#9ca3af',
+                  background: '#f9fafb',
+                  border: '1px solid #e5e7eb',
+                  padding: '12px 16px',
+                } as any}
               />
             </div>
           </div>

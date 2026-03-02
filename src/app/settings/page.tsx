@@ -27,7 +27,7 @@ export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState('settings');
   const [clearDialogVisible, setClearDialogVisible] = useState(false);
   const [exportDialogVisible, setExportDialogVisible] = useState(false);
-  const [storageInfo, setStorageInfo] = useState({ used: 0, total: 50 * 1024 * 1024 });
+  const [storageInfo, setStorageInfo] = useState({ used: 0, total: 500 * 1024 * 1024 });
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const items = useItemStore((s) => s.items);
@@ -60,7 +60,7 @@ export default function SettingsPage() {
 
     setStorageInfo({
       used: Math.round(totalSize),
-      total: 50 * 1024 * 1024,
+      total: 500 * 1024 * 1024,
     });
   };
 
@@ -180,7 +180,6 @@ export default function SettingsPage() {
       >
         <div className="relative z-10">
           <h1 className="text-2xl font-bold tracking-tight" style={{ color: '#0f172a' }}>设置</h1>
-          <p className="text-sm mt-2 font-light" style={{ color: '#64748b' }}>管理应用数据</p>
         </div>
       </div>
 

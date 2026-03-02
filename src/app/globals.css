@@ -1,6 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.adm-image-uploader-add {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.adm-image-uploader-upload-button {
+  position: relative !important;
+}
+
+.adm-image-uploader-upload-button-icon {
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+}
 
 :root {
   --color-primary: #0f172a;
