@@ -57,6 +57,8 @@ export default function ImportPage() {
   const [importStep, setImportStep] = useState<'upload' | 'mapping' | 'preview'>('upload');
   const [importedData, setImportedData] = useState<ImportedRow[]>([]);
   const [fileType, setFileType] = useState<'json' | 'csv'>('json');
+  const [backupAccounts, setBackupAccounts] = useState<any[]>([]);
+  const [backupCategories, setBackupCategories] = useState<any[]>([]);
   const [fieldMapping, setFieldMapping] = useState<FieldMapping>({
     name: '',
     category: '',
@@ -98,7 +100,7 @@ export default function ImportPage() {
         if (data.items && Array.isArray(data.items)) {
           const mapped = data.items.map((item: any) => ({
             name: item.name || '',
-            category: item.categoryId || item.categoryId || '',
+            category: item.categoryId || '',
             buyAccountId: item.buyAccountId || '',
             sellAccountId: item.sellAccountId || '',
             shippingAccountId: item.shippingAccountId || '',
@@ -108,6 +110,9 @@ export default function ImportPage() {
             remark: item.remark || '',
             isFullBackup: true,
           }));
+          
+          setBackupAccounts(data.accounts || []);
+          setBackupCategories(data.categories || []);
           setImportedData(mapped);
           setImportStep('preview');
           setSelectedRows(mapped.length > 0 ? Array.from({ length: mapped.length }, (_, i) => i) : []);
@@ -334,6 +339,56 @@ export default function ImportPage() {
         Toast.show({ content: '没有有效数据可导入，请检查字段映射', position: 'bottom' });
         setImporting(false);
         return;
+      }
+
+      if (isFullBackup && backupCategories.length > 0) {
+        const categoryIdMap: Record<string, string> = {};
+        const newCategories = backupCategories.map((cat: any) => {
+          const newId = generateId();
+          categoryIdMap[cat.id] = newId;
+          return {
+            ...cat,
+            id: newId,
+            createdAt: cat.createdAt || new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+          };
+        });
+        
+        const updatedItems = newItems.map(item => ({
+          ...item,
+          categoryId: item.categoryId ? categoryIdMap[item.categoryId] : undefined,
+        }));
+        newItems.length = 0;
+        newItems.push(...updatedItems);
+        
+        await saveCategories([...categories, ...newCategories]);
+        await loadCategories();
+      }
+
+      if (isFullBackup && backupAccounts.length > 0) {
+        const accountIdMap: Record<string, string> = {};
+        const newAccounts = backupAccounts.map((acc: any) => {
+          const newId = generateId();
+          accountIdMap[acc.id] = newId;
+          return {
+            ...acc,
+            id: newId,
+            createdAt: acc.createdAt || new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+          };
+        });
+        
+        const updatedItems = newItems.map(item => ({
+          ...item,
+          buyAccountId: item.buyAccountId ? accountIdMap[item.buyAccountId] || item.buyAccountId : '',
+          sellAccountId: item.sellAccountId ? accountIdMap[item.sellAccountId] || item.sellAccountId : '',
+          shippingAccountId: item.shippingAccountId ? accountIdMap[item.shippingAccountId] || item.shippingAccountId : item.sellAccountId,
+        }));
+        newItems.length = 0;
+        newItems.push(...updatedItems);
+        
+        await saveAccounts([...accounts, ...newAccounts]);
+        await loadAccounts();
       }
 
       await saveItems([...items, ...newItems]);
