@@ -85,6 +85,10 @@ export default function CategoriesPage() {
     setEditDialogVisible(true);
   };
 
+  const handleCategoryClick = (category: Category) => {
+    router.push(`/items?category=${category.id}`);
+  };
+
   const renderCategoryItem = (category: Category, index: number) => {
     const itemCount = checkItemCountByCategory(category.id);
     return (
@@ -105,7 +109,7 @@ export default function CategoriesPage() {
             },
           ]}
         >
-          <div className="glass-card p-5 cursor-pointer" style={{ animationDelay: `${index * 0.1}s` }}>
+          <div className="glass-card p-5 cursor-pointer" style={{ animationDelay: `${index * 0.1}s` }} onClick={() => handleCategoryClick(category)}>
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-4">
                 <div 
