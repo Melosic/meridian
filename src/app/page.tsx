@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useCategoryStore, useItemStore } from '@/store';
+import { useCategoryStore, useItemStore, useLanguageStore } from '@/store';
 import { formatMoney } from '@/lib/utils';
 import { 
   AppstoreOutline, 
@@ -10,6 +10,7 @@ import {
   SetOutline,
   PieOutline,
   RightOutline,
+  GlobalOutline,
 } from 'antd-mobile-icons';
 
 export default function HomePage() {
@@ -18,6 +19,9 @@ export default function HomePage() {
   const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState('home');
   
+  const t = useLanguageStore((s) => s.translations);
+  const language = useLanguageStore((s) => s.language);
+  const setLanguage = useLanguageStore((s) => s.setLanguage);
   const categories = useCategoryStore((s) => s.categories);
   const items = useItemStore((s) => s.items);
 
@@ -42,7 +46,7 @@ export default function HomePage() {
   if (!mounted) {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ background: 'linear-gradient(180deg, #fafafa 0%, #f0f0f0 100%)' }}>
-        <div className="animate-pulse text-base" style={{ color: '#64748b' }}>加载中...</div>
+        <div className="animate-pulse text-base" style={{ color: '#64748b' }}>{t.common.loading}</div>
       </div>
     );
   }
@@ -55,29 +59,37 @@ export default function HomePage() {
             <div>
               <h1 className="text-3xl font-bold tracking-tight" style={{ color: '#0f172a' }}>Meridian</h1>
             </div>
+            <button
+              onClick={() => setLanguage(language === 'zh' ? 'en' : 'zh')}
+              className="flex items-center gap-1.5 px-3 py-2 rounded-xl transition-all cursor-pointer"
+              style={{ background: 'rgba(255,255,255,0.5)', border: '1px solid rgba(15,23,42,0.1)' }}
+            >
+              <GlobalOutline style={{ fontSize: 16, color: '#0f172a' }} />
+              <span className="text-xs font-semibold" style={{ color: '#0f172a' }}>{language === 'zh' ? 'EN' : '中'}</span>
+            </button>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="stat-card p-4 text-center cursor-default">
               <div className="text-2xl font-bold" style={{ color: '#0f172a' }}>{totalStats.totalItems}</div>
-              <div className="text-xs mt-2 font-semibold" style={{ color: '#64748b' }}>商品总数</div>
+              <div className="text-xs mt-2 font-semibold" style={{ color: '#64748b' }}>{t.settings.products} {language === 'zh' ? '总数' : 'Total'}</div>
             </div>
             <div className="stat-card p-4 text-center cursor-default">
               <div className="text-2xl font-bold" style={{ background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{formatMoney(totalStats.totalSales)}</div>
-              <div className="text-xs mt-2 font-semibold" style={{ color: '#64748b' }}>总销售额</div>
+              <div className="text-xs mt-2 font-semibold" style={{ color: '#64748b' }}>{t.stats.totalSales}</div>
             </div>
             <div className="stat-card p-4 text-center cursor-default">
               <div className={`text-2xl font-bold ${totalStats.totalProfit >= 0 ? 'profit-text' : 'loss-text'}`}>
                 {formatMoney(totalStats.totalProfit)}
               </div>
-              <div className="text-xs mt-2 font-semibold" style={{ color: '#64748b' }}>总利润</div>
+              <div className="text-xs mt-2 font-semibold" style={{ color: '#64748b' }}>{t.stats.totalProfit}</div>
             </div>
             <div 
               className="stat-card p-4 text-center cursor-pointer"
               onClick={() => router.push('/stats')}
             >
               <div className="text-2xl font-bold" style={{ background: 'linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{totalStats.settledCount}</div>
-              <div className="text-xs mt-2 font-semibold" style={{ color: '#64748b' }}>已结算</div>
+              <div className="text-xs mt-2 font-semibold" style={{ color: '#64748b' }}>{t.settlement.settled}</div>
             </div>
           </div>
         </div>
@@ -85,24 +97,24 @@ export default function HomePage() {
 
       <div className="px-5 -mt-8 relative z-20">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-bold" style={{ color: '#0f172a' }}>商品分类</h2>
+          <h2 className="text-xl font-bold" style={{ color: '#0f172a' }}>{t.app.categories}</h2>
           <button 
             onClick={() => router.push('/categories')}
             className="text-sm font-semibold transition-all hover:opacity-70 cursor-pointer"
             style={{ color: '#64748b' }}
           >
-            管理
+            {language === 'zh' ? '管理' : 'Manage'}
           </button>
         </div>
 
         {categories.length === 0 ? (
           <div className="empty-state-card cursor-pointer flex flex-col items-center justify-center py-12" onClick={() => router.push('/categories')}>
-            <div className="text-slate-500 mb-6 font-semibold text-lg">暂无分类</div>
+            <div className="text-slate-500 mb-6 font-semibold text-lg">{t.common.noData}</div>
             <button 
               onClick={(e) => { e.stopPropagation(); router.push('/categories'); }}
               className="glass-button px-8 py-3.5 text-sm cursor-pointer"
             >
-              去添加分类
+              {language === 'zh' ? '去添加分类' : 'Add Category'}
             </button>
           </div>
         ) : (
@@ -126,7 +138,7 @@ export default function HomePage() {
                       </div>
                       <div>
                         <div className="font-bold text-lg" style={{ color: '#0f172a' }}>{category.name}</div>
-                        <div className="text-xs mt-1 font-semibold" style={{ color: '#64748b' }}>{stats.totalCount} 件商品</div>
+                        <div className="text-xs mt-1 font-semibold" style={{ color: '#64748b' }}>{stats.totalCount} {language === 'zh' ? '件商品' : 'items'}</div>
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
@@ -149,35 +161,35 @@ export default function HomePage() {
           className="flex flex-col items-center gap-1 py-2 px-2 rounded-2xl transition-all cursor-pointer"
         >
           <AppstoreOutline style={{ fontSize: 22, color: activeTab === 'home' ? '#0f172a' : '#64748b' }} />
-          <span style={{ fontSize: 10, color: activeTab === 'home' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'home' ? 700 : 500 }}>首页</span>
+          <span style={{ fontSize: 10, color: activeTab === 'home' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'home' ? 700 : 500 }}>{t.app.home}</span>
         </button>
         <button 
           onClick={() => { setActiveTab('items'); router.push('/items'); }}
           className="flex flex-col items-center gap-1 py-2 px-2 rounded-2xl transition-all cursor-pointer"
         >
           <UnorderedListOutline style={{ fontSize: 22, color: activeTab === 'items' ? '#0f172a' : '#64748b' }} />
-          <span style={{ fontSize: 10, color: activeTab === 'items' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'items' ? 700 : 500 }}>商品</span>
+          <span style={{ fontSize: 10, color: activeTab === 'items' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'items' ? 700 : 500 }}>{t.app.items}</span>
         </button>
         <button 
           onClick={() => { setActiveTab('settlement'); router.push('/settlement'); }}
           className="flex flex-col items-center gap-1 py-2 px-2 rounded-2xl transition-all cursor-pointer"
         >
           <PieOutline style={{ fontSize: 22, color: activeTab === 'settlement' ? '#0f172a' : '#64748b' }} />
-          <span style={{ fontSize: 10, color: activeTab === 'settlement' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'settlement' ? 700 : 500 }}>结算</span>
+          <span style={{ fontSize: 10, color: activeTab === 'settlement' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'settlement' ? 700 : 500 }}>{t.app.settlement}</span>
         </button>
         <button 
           onClick={() => { setActiveTab('accounts'); router.push('/accounts'); }}
           className="flex flex-col items-center gap-1 py-2 px-2 rounded-2xl transition-all cursor-pointer"
         >
           <SetOutline style={{ fontSize: 22, color: activeTab === 'accounts' ? '#0f172a' : '#64748b' }} />
-          <span style={{ fontSize: 10, color: activeTab === 'accounts' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'accounts' ? 700 : 500 }}>账号</span>
+          <span style={{ fontSize: 10, color: activeTab === 'accounts' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'accounts' ? 700 : 500 }}>{t.app.accounts}</span>
         </button>
         <button 
           onClick={() => { setActiveTab('settings'); router.push('/settings'); }}
           className="flex flex-col items-center gap-1 py-2 px-2 rounded-2xl transition-all cursor-pointer"
         >
           <RightOutline style={{ fontSize: 22, color: activeTab === 'settings' ? '#0f172a' : '#64748b' }} />
-          <span style={{ fontSize: 10, color: activeTab === 'settings' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'settings' ? 700 : 500 }}>设置</span>
+          <span style={{ fontSize: 10, color: activeTab === 'settings' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'settings' ? 700 : 500 }}>{t.app.settings}</span>
         </button>
       </div>
     </div>

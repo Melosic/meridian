@@ -21,7 +21,7 @@ import {
   RightOutline,
   DeleteOutline,
 } from 'antd-mobile-icons';
-import { useItemStore, useCategoryStore, useAccountStore } from '@/store';
+import { useItemStore, useCategoryStore, useAccountStore, useLanguageStore } from '@/store';
 import { formatMoney } from '@/lib/utils';
 import type { Item } from '@/types';
 
@@ -40,6 +40,8 @@ export default function ItemsPage() {
   const [selectMode, setSelectMode] = useState(false);
   const PAGE_SIZE = 20;
 
+  const t = useLanguageStore((s) => s.translations);
+  const language = useLanguageStore((s) => s.language);
   const items = useItemStore((s) => s.items);
   const deleteItem = useItemStore((s) => s.deleteItem);
   const categories = useCategoryStore((s) => s.categories);
@@ -107,15 +109,14 @@ export default function ItemsPage() {
     if (selectedItems.length === 0) return;
     
     Dialog.confirm({
-      title: '确认删除',
-      content: `确定要删除选中的 ${selectedItems.length} 个商品吗？`,
+      title: t.common.confirm + ' ' + t.common.delete,
       onConfirm: async () => {
         for (const itemId of selectedItems) {
           await deleteItem(itemId);
         }
         setSelectedItems([]);
         setSelectMode(false);
-        Toast.show({ content: '删除成功', position: 'bottom' });
+        Toast.show({ content: t.common.success, position: 'bottom' });
       },
     });
   };
@@ -196,7 +197,7 @@ export default function ItemsPage() {
               </div>
               <div className="flex justify-between items-center mt-4">
                 <div className="text-sm font-semibold" style={{ color: '#64748b' }}>
-                  售价: <span style={{ color: '#0f172a', fontWeight: 700 }}>{formatMoney(item.price)}</span>
+                  {t.items.price}: <span style={{ color: '#0f172a', fontWeight: 700 }}>{formatMoney(item.price)}</span>
                 </div>
                 <div 
                   className="text-sm font-bold"
@@ -204,7 +205,7 @@ export default function ItemsPage() {
                     color: item.profit >= 0 ? '#059669' : '#dc2626'
                   }}
                 >
-                  利润 {formatMoney(item.profit)}
+                  {t.items.profit} {formatMoney(item.profit)}
                 </div>
               </div>
             </div>
@@ -222,7 +223,7 @@ export default function ItemsPage() {
       >
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-2xl font-bold" style={{ color: '#0f172a' }}>
-            {categoryName ? categoryName : '商品'}
+            {categoryName ? categoryName : t.app.items}
           </h1>
           {selectMode ? (
             <div className="flex gap-2">
@@ -232,7 +233,7 @@ export default function ItemsPage() {
                 className="cursor-pointer font-semibold text-sm"
                 style={{ color: '#0f172a' }}
               >
-                {selectedItems.length === filteredItems.length ? '取消' : '全选'}
+                {selectedItems.length === filteredItems.length ? t.common.cancel : (language === 'zh' ? '全选' : 'Select All')}
               </Button>
               <Button
                 fill="none"
@@ -252,7 +253,7 @@ export default function ItemsPage() {
                 style={{ color: items.length > 0 ? '#0f172a' : '#94a3b8' }}
                 disabled={items.length === 0}
               >
-                选择
+                {language === 'zh' ? '选择' : 'Select'}
               </Button>
               <Button
                 fill="none"
@@ -266,7 +267,7 @@ export default function ItemsPage() {
           )}
         </div>
         <SearchBar
-          placeholder="搜索商品名称"
+          placeholder={t.common.search + ' ' + t.items.itemName}
           value={searchText}
           onChange={setSearchText}
           style={{ 
@@ -280,12 +281,12 @@ export default function ItemsPage() {
       <div className="px-5">
         {filteredItems.length === 0 ? (
           <div className="empty-state-card cursor-pointer flex flex-col items-center justify-center py-12" onClick={() => router.push('/items/new')}>
-            <div className="text-slate-500 mb-6 font-semibold text-lg">暂无商品</div>
+            <div className="text-slate-500 mb-6 font-semibold text-lg">{t.common.noData}</div>
             <button 
               onClick={() => router.push('/items/new')}
               className="glass-button px-8 py-3.5 text-sm cursor-pointer"
             >
-              添加商品
+              {t.items.addItem}
             </button>
           </div>
         ) : (
@@ -329,7 +330,7 @@ export default function ItemsPage() {
                 disabled={selectedItems.length === 0}
                 style={{ opacity: selectedItems.length === 0 ? 0.5 : 1 }}
               >
-                删除选中 ({selectedItems.length})
+                {t.common.delete} {language === 'zh' ? '选中' : 'Selected'} ({selectedItems.length})
               </button>
             )}
 
@@ -342,7 +343,7 @@ export default function ItemsPage() {
               }}
               onClick={() => router.push('/items/new')}
             >
-              <div className="text-base mt-2 font-semibold" style={{ color: '#64748b' }}>添加商品</div>
+              <div className="text-base mt-2 font-semibold" style={{ color: '#64748b' }}>{t.items.addItem}</div>
             </div>
           </>
         )}
@@ -354,49 +355,49 @@ export default function ItemsPage() {
           className="flex flex-col items-center gap-1 py-2 px-2 rounded-2xl transition-all cursor-pointer"
         >
           <AppstoreOutline style={{ fontSize: 22, color: activeTab === 'home' ? '#0f172a' : '#64748b' }} />
-          <span style={{ fontSize: 10, color: activeTab === 'home' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'home' ? 700 : 500 }}>首页</span>
+          <span style={{ fontSize: 10, color: activeTab === 'home' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'home' ? 700 : 500 }}>{t.app.home}</span>
         </button>
         <button 
           onClick={() => { setActiveTab('items'); router.push('/items'); }}
           className="flex flex-col items-center gap-1 py-2 px-2 rounded-2xl transition-all cursor-pointer"
         >
           <UnorderedListOutline style={{ fontSize: 22, color: activeTab === 'items' ? '#0f172a' : '#64748b' }} />
-          <span style={{ fontSize: 10, color: activeTab === 'items' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'items' ? 700 : 500 }}>商品</span>
+          <span style={{ fontSize: 10, color: activeTab === 'items' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'items' ? 700 : 500 }}>{t.app.items}</span>
         </button>
         <button 
           onClick={() => { setActiveTab('settlement'); router.push('/settlement'); }}
           className="flex flex-col items-center gap-1 py-2 px-2 rounded-2xl transition-all cursor-pointer"
         >
           <PieOutline style={{ fontSize: 22, color: activeTab === 'settlement' ? '#0f172a' : '#64748b' }} />
-          <span style={{ fontSize: 10, color: activeTab === 'settlement' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'settlement' ? 700 : 500 }}>结算</span>
+          <span style={{ fontSize: 10, color: activeTab === 'settlement' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'settlement' ? 700 : 500 }}>{t.app.settlement}</span>
         </button>
         <button 
           onClick={() => { setActiveTab('accounts'); router.push('/accounts'); }}
           className="flex flex-col items-center gap-1 py-2 px-2 rounded-2xl transition-all cursor-pointer"
         >
           <SetOutline style={{ fontSize: 22, color: activeTab === 'accounts' ? '#0f172a' : '#64748b' }} />
-          <span style={{ fontSize: 10, color: activeTab === 'accounts' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'accounts' ? 700 : 500 }}>账号</span>
+          <span style={{ fontSize: 10, color: activeTab === 'accounts' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'accounts' ? 700 : 500 }}>{t.app.accounts}</span>
         </button>
         <button 
           onClick={() => { setActiveTab('settings'); router.push('/settings'); }}
           className="flex flex-col items-center gap-1 py-2 px-2 rounded-2xl transition-all cursor-pointer"
         >
           <RightOutline style={{ fontSize: 22, color: activeTab === 'settings' ? '#0f172a' : '#64748b' }} />
-          <span style={{ fontSize: 10, color: activeTab === 'settings' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'settings' ? 700 : 500 }}>设置</span>
+          <span style={{ fontSize: 10, color: activeTab === 'settings' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'settings' ? 700 : 500 }}>{t.app.settings}</span>
         </button>
       </div>
 
       <Dialog
         visible={filterVisible}
         onClose={() => setFilterVisible(false)}
-        title={<div className="font-bold" style={{ color: '#0f172a' }}>筛选条件</div>}
+        title={<div className="font-bold" style={{ color: '#0f172a' }}>{language === 'zh' ? '筛选条件' : 'Filter'}</div>}
         content={
           <div className="space-y-6">
             <div>
-              <div className="text-sm mb-4 font-semibold" style={{ color: '#64748b' }}>分类</div>
+              <div className="text-sm mb-4 font-semibold" style={{ color: '#64748b' }}>{t.items.category}</div>
               <Selector
                 options={[
-                  { label: '不限', value: '' },
+                  { label: language === 'zh' ? '不限' : 'All', value: '' },
                   ...categories.map((c) => ({ label: c.name, value: c.id })),
                 ]}
                 value={[filterCategoryId]}
@@ -405,10 +406,10 @@ export default function ItemsPage() {
             </div>
 
             <div>
-              <div className="text-sm mb-4 font-semibold" style={{ color: '#64748b' }}>购买账号</div>
+              <div className="text-sm mb-4 font-semibold" style={{ color: '#64748b' }}>{t.items.buyAccount}</div>
               <Selector
                 options={[
-                  { label: '不限', value: '' },
+                  { label: language === 'zh' ? '不限' : 'All', value: '' },
                   ...accounts.map((a) => ({ label: a.name, value: a.id })),
                 ]}
                 value={[filterBuyAccountId]}
@@ -417,10 +418,10 @@ export default function ItemsPage() {
             </div>
 
             <div>
-              <div className="text-sm mb-4 font-semibold" style={{ color: '#64748b' }}>销售账号</div>
+              <div className="text-sm mb-4 font-semibold" style={{ color: '#64748b' }}>{t.items.sellAccount}</div>
               <Selector
                 options={[
-                  { label: '不限', value: '' },
+                  { label: language === 'zh' ? '不限' : 'All', value: '' },
                   ...accounts.map((a) => ({ label: a.name, value: a.id })),
                 ]}
                 value={[filterSellAccountId]}
@@ -434,7 +435,7 @@ export default function ItemsPage() {
                 onClick={clearFilters}
                 style={{ borderRadius: 9999, height: 48, background: 'rgba(255,255,255,0.5)', border: '1px solid rgba(0,0,0,0.1)' }}
               >
-                清空筛选
+                {language === 'zh' ? '清空筛选' : 'Clear Filter'}
               </Button>
               <Button 
                 block 
@@ -447,7 +448,7 @@ export default function ItemsPage() {
                   border: 'none'
                 }}
               >
-                应用筛选
+                {language === 'zh' ? '应用筛选' : 'Apply Filter'}
               </Button>
             </div>
           </div>

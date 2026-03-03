@@ -10,13 +10,15 @@ import {
   PieOutline,
   RightOutline,
 } from 'antd-mobile-icons';
-import { useItemStore, useAccountStore } from '@/store';
+import { useItemStore, useAccountStore, useLanguageStore } from '@/store';
 import { formatMoney } from '@/lib/utils';
 
 export default function StatsPage() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState('stats');
 
+  const t = useLanguageStore((s) => s.translations);
+  const language = useLanguageStore((s) => s.language);
   const items = useItemStore((s) => s.items);
   const accounts = useAccountStore((s) => s.accounts);
 
@@ -87,37 +89,37 @@ export default function StatsPage() {
         style={{ background: 'transparent' }}
       >
         <div className="relative z-10">
-          <h1 className="text-2xl font-bold tracking-tight" style={{ color: '#0f172a' }}>利润统计</h1>
-          <p className="text-sm mt-2 font-light" style={{ color: '#64748b' }}>财务数据一览</p>
+          <h1 className="text-2xl font-bold tracking-tight" style={{ color: '#0f172a' }}>{t.stats.title}</h1>
+          <p className="text-sm mt-2 font-light" style={{ color: '#64748b' }}>{language === 'zh' ? '财务数据一览' : 'Financial Overview'}</p>
         </div>
       </div>
 
       <div className="px-5 -mt-6 relative z-10 space-y-5">
         <div className="glass-card p-6">
-          <h3 className="font-bold text-lg mb-6" style={{ color: '#0f172a' }}>总体概览</h3>
+          <h3 className="font-bold text-lg mb-6" style={{ color: '#0f172a' }}>{language === 'zh' ? '总体概览' : 'Overview'}</h3>
           <div className="grid grid-cols-2 gap-6">
             <div>
-              <div className="text-xs mb-1.5 font-semibold" style={{ color: '#64748b' }}>商品总数</div>
+              <div className="text-xs mb-1.5 font-semibold" style={{ color: '#64748b' }}>{language === 'zh' ? '商品总数' : 'Total Items'}</div>
               <div className="text-3xl font-bold" style={{ color: '#0f172a' }}>{stats.totalItems}</div>
             </div>
             <div>
-              <div className="text-xs mb-1.5 font-semibold" style={{ color: '#64748b' }}>已结算/待结算</div>
+              <div className="text-xs mb-1.5 font-semibold" style={{ color: '#64748b' }}>{language === 'zh' ? '已结算/待结算' : 'Settled/Unsettled'}</div>
               <div className="text-3xl font-bold" style={{ color: '#0f172a' }}>{stats.settledItems}/{stats.unsettledItems}</div>
             </div>
             <div>
-              <div className="text-xs mb-1.5 font-semibold" style={{ color: '#64748b' }}>总销售额</div>
+              <div className="text-xs mb-1.5 font-semibold" style={{ color: '#64748b' }}>{t.stats.totalSales}</div>
               <div className="text-xl font-bold" style={{ background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{formatMoney(stats.totalSales)}</div>
             </div>
             <div>
-              <div className="text-xs mb-1.5 font-semibold" style={{ color: '#64748b' }}>总成本</div>
+              <div className="text-xs mb-1.5 font-semibold" style={{ color: '#64748b' }}>{t.stats.totalCost}</div>
               <div className="text-xl font-bold" style={{ background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{formatMoney(stats.totalCost)}</div>
             </div>
             <div>
-              <div className="text-xs mb-1.5 font-semibold" style={{ color: '#64748b' }}>总邮费</div>
+              <div className="text-xs mb-1.5 font-semibold" style={{ color: '#64748b' }}>{t.stats.totalShipping}</div>
               <div className="text-xl font-bold" style={{ background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{formatMoney(stats.totalShipping)}</div>
             </div>
             <div>
-              <div className="text-xs mb-1.5 font-semibold" style={{ color: '#64748b' }}>总利润</div>
+              <div className="text-xs mb-1.5 font-semibold" style={{ color: '#64748b' }}>{t.stats.totalProfit}</div>
               <div className={`text-xl font-bold ${stats.totalProfit >= 0 ? 'profit-text' : 'loss-text'}`}>
                 {formatMoney(stats.totalProfit)}
               </div>
@@ -126,14 +128,14 @@ export default function StatsPage() {
         </div>
 
         <div className="glass-card p-6">
-          <h3 className="font-bold text-lg mb-6" style={{ color: '#0f172a' }}>结算状态</h3>
+          <h3 className="font-bold text-lg mb-6" style={{ color: '#0f172a' }}>{language === 'zh' ? '结算状态' : 'Settlement Status'}</h3>
           <div className="grid grid-cols-2 gap-6">
             <div>
-              <div className="text-xs mb-1.5 font-semibold" style={{ color: '#64748b' }}>已结算利润</div>
+              <div className="text-xs mb-1.5 font-semibold" style={{ color: '#64748b' }}>{language === 'zh' ? '已结算利润' : 'Settled Profit'}</div>
               <div className="text-xl font-bold" style={{ background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{formatMoney(stats.settledProfit)}</div>
             </div>
             <div>
-              <div className="text-xs mb-1.5 font-semibold" style={{ color: '#64748b' }}>待结算利润</div>
+              <div className="text-xs mb-1.5 font-semibold" style={{ color: '#64748b' }}>{language === 'zh' ? '待结算利润' : 'Unsettled Profit'}</div>
               <div className={`text-xl font-bold ${stats.unsettledProfit >= 0 ? 'profit-text' : 'loss-text'}`}>
                 {formatMoney(stats.unsettledProfit)}
               </div>
@@ -142,9 +144,9 @@ export default function StatsPage() {
         </div>
 
         <div className="glass-card p-6">
-          <h3 className="font-bold text-lg mb-6" style={{ color: '#0f172a' }}>账号统计</h3>
+          <h3 className="font-bold text-lg mb-6" style={{ color: '#0f172a' }}>{language === 'zh' ? '账号统计' : 'Account Stats'}</h3>
           {accountStats.length === 0 ? (
-            <div className="text-slate-500 text-center py-8 font-semibold">暂无账号数据</div>
+            <div className="text-slate-500 text-center py-8 font-semibold">{t.common.noData}</div>
           ) : (
             <div className="space-y-6">
               {accountStats.map((stat) => (
@@ -155,11 +157,11 @@ export default function StatsPage() {
                   </div>
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <div>
-                      <span className="text-xs font-semibold" style={{ color: '#64748b' }}>应收成本 </span>
+                      <span className="text-xs font-semibold" style={{ color: '#64748b' }}>{language === 'zh' ? '应收成本 ' : 'Receivable Cost'} </span>
                       <span className="font-bold" style={{ color: '#f59e0b' }}>{formatMoney(stat.costReceivable)}</span>
                     </div>
                     <div>
-                      <span className="text-xs font-semibold" style={{ color: '#64748b' }}>应收邮费 </span>
+                      <span className="text-xs font-semibold" style={{ color: '#64748b' }}>{language === 'zh' ? '应收邮费 ' : 'Receivable Shipping'} </span>
                       <span className="font-bold" style={{ color: '#f59e0b' }}>{formatMoney(stat.shippingReceivable)}</span>
                     </div>
                     <div>
@@ -167,7 +169,7 @@ export default function StatsPage() {
                       <span className="font-bold" style={{ color: '#10b981' }}>{formatMoney(stat.salesReceivable)}</span>
                     </div>
                     <div>
-                      <span className="text-xs font-semibold" style={{ color: '#64748b' }}>净利润 </span>
+                      <span className="text-xs font-semibold" style={{ color: '#64748b' }}>{language === 'zh' ? '净利润 ' : 'Net Profit'} </span>
                       <span className={`font-bold ${stat.netProfit >= 0 ? 'profit-text' : 'loss-text'}`}>
                         {formatMoney(stat.netProfit)}
                       </span>
@@ -186,35 +188,35 @@ export default function StatsPage() {
           className="flex flex-col items-center gap-1 py-2 px-2 rounded-2xl transition-all cursor-pointer"
         >
           <AppstoreOutline style={{ fontSize: 22, color: activeTab === 'home' ? '#0f172a' : '#64748b' }} />
-          <span style={{ fontSize: 10, color: activeTab === 'home' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'home' ? 700 : 500 }}>首页</span>
+          <span style={{ fontSize: 10, color: activeTab === 'home' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'home' ? 700 : 500 }}>{t.app.home}</span>
         </button>
         <button 
           onClick={() => { setActiveTab('items'); router.push('/items'); }}
           className="flex flex-col items-center gap-1 py-2 px-2 rounded-2xl transition-all cursor-pointer"
         >
           <UnorderedListOutline style={{ fontSize: 22, color: activeTab === 'items' ? '#0f172a' : '#64748b' }} />
-          <span style={{ fontSize: 10, color: activeTab === 'items' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'items' ? 700 : 500 }}>商品</span>
+          <span style={{ fontSize: 10, color: activeTab === 'items' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'items' ? 700 : 500 }}>{t.app.items}</span>
         </button>
         <button 
           onClick={() => { setActiveTab('settlement'); router.push('/settlement'); }}
           className="flex flex-col items-center gap-1 py-2 px-2 rounded-2xl transition-all cursor-pointer"
         >
           <PieOutline style={{ fontSize: 22, color: activeTab === 'settlement' ? '#0f172a' : '#64748b' }} />
-          <span style={{ fontSize: 10, color: activeTab === 'settlement' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'settlement' ? 700 : 500 }}>结算</span>
+          <span style={{ fontSize: 10, color: activeTab === 'settlement' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'settlement' ? 700 : 500 }}>{t.app.settlement}</span>
         </button>
         <button 
           onClick={() => { setActiveTab('accounts'); router.push('/accounts'); }}
           className="flex flex-col items-center gap-1 py-2 px-2 rounded-2xl transition-all cursor-pointer"
         >
           <SetOutline style={{ fontSize: 22, color: activeTab === 'accounts' ? '#0f172a' : '#64748b' }} />
-          <span style={{ fontSize: 10, color: activeTab === 'accounts' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'accounts' ? 700 : 500 }}>账号</span>
+          <span style={{ fontSize: 10, color: activeTab === 'accounts' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'accounts' ? 700 : 500 }}>{t.app.accounts}</span>
         </button>
         <button 
           onClick={() => { setActiveTab('settings'); router.push('/settings'); }}
           className="flex flex-col items-center gap-1 py-2 px-2 rounded-2xl transition-all cursor-pointer"
         >
           <RightOutline style={{ fontSize: 22, color: activeTab === 'settings' ? '#0f172a' : '#64748b' }} />
-          <span style={{ fontSize: 10, color: activeTab === 'settings' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'settings' ? 700 : 500 }}>设置</span>
+          <span style={{ fontSize: 10, color: activeTab === 'settings' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'settings' ? 700 : 500 }}>{t.app.settings}</span>
         </button>
       </div>
     </div>

@@ -14,7 +14,7 @@ import {
   EditSOutline,
   LeftOutline,
 } from 'antd-mobile-icons';
-import { useItemStore, useCategoryStore, useAccountStore } from '@/store';
+import { useItemStore, useCategoryStore, useAccountStore, useLanguageStore } from '@/store';
 import { formatMoney, formatDate } from '@/lib/utils';
 
 export default function ItemDetailPage() {
@@ -22,6 +22,9 @@ export default function ItemDetailPage() {
   const params = useParams();
   const itemId = params.id as string;
   const [loading, setLoading] = useState(true);
+
+  const t = useLanguageStore((s) => s.translations);
+  const language = useLanguageStore((s) => s.language);
 
   const getItemById = useItemStore((s) => s.getItemById);
   const deleteItem = useItemStore((s) => s.deleteItem);
@@ -50,12 +53,12 @@ export default function ItemDetailPage() {
         <div className="w-20 h-20 rounded-2xl flex items-center justify-center mb-5" style={{ background: '#f5f5f5' }}>
           <span className="text-4xl">❓</span>
         </div>
-        <div className="text-gray-400 mb-5">商品不存在</div>
+        <div className="text-gray-400 mb-5">{language === 'zh' ? '商品不存在' : 'Item not found'}</div>
         <button 
           onClick={() => router.push('/items')}
           className="glass-button px-6 py-3 text-sm"
         >
-          返回商品列表
+          {language === 'zh' ? '返回商品列表' : 'Back to Items'}
         </button>
       </div>
     );
@@ -68,11 +71,11 @@ export default function ItemDetailPage() {
 
   const handleDelete = () => {
     Dialog.confirm({
-      title: '确认删除',
-      content: '确定要删除这个商品吗？',
+      title: t.common.confirm + ' ' + t.common.delete,
+      content: language === 'zh' ? '确定要删除这个商品吗？' : 'Are you sure you want to delete this item?',
       onConfirm: async () => {
         await deleteItem(item.id);
-        Toast.show({ content: '删除成功', position: 'bottom' });
+        Toast.show({ content: t.common.success, position: 'bottom' });
         router.push('/items');
       },
     });
@@ -86,7 +89,7 @@ export default function ItemDetailPage() {
         <button onClick={() => router.back()} className="p-1">
           <LeftOutline style={{ fontSize: 22, color: '#1a1a1a' }} />
         </button>
-        <h1 className="text-xl font-semibold flex-1" style={{ color: '#1a1a1a' }}>商品详情</h1>
+        <h1 className="text-xl font-semibold flex-1" style={{ color: '#1a1a1a' }}>{language === 'zh' ? '商品详情' : 'Item Detail'}</h1>
         <div className="flex gap-2">
           <button 
             onClick={() => router.push(`/items/${item.id}/edit`)}
@@ -130,40 +133,40 @@ export default function ItemDetailPage() {
         </div>
 
         <div className="glass-card p-5">
-          <h3 className="font-semibold mb-4" style={{ color: '#1a1a1a' }}>账号信息</h3>
+          <h3 className="font-semibold mb-4" style={{ color: '#1a1a1a' }}>{language === 'zh' ? '账号信息' : 'Account Info'}</h3>
           <div className="space-y-3">
             <div className="flex justify-between items-center py-2.5 border-b" style={{ borderColor: 'rgba(0,0,0,0.06)' }}>
-              <span style={{ color: '#999' }}>购买账号</span>
+              <span style={{ color: '#999' }}>{t.items.buyAccount}</span>
               <span className="font-medium" style={{ color: '#1a1a1a' }}>{buyAccount?.name || '-'}</span>
             </div>
             <div className="flex justify-between items-center py-2.5 border-b" style={{ borderColor: 'rgba(0,0,0,0.06)' }}>
-              <span style={{ color: '#999' }}>销售账号</span>
+              <span style={{ color: '#999' }}>{t.items.sellAccount}</span>
               <span className="font-medium" style={{ color: '#1a1a1a' }}>{sellAccount?.name || '-'}</span>
             </div>
             <div className="flex justify-between items-center py-2.5">
-              <span style={{ color: '#999' }}>邮费支付账号</span>
+              <span style={{ color: '#999' }}>{t.items.shippingAccount}</span>
               <span className="font-medium" style={{ color: '#1a1a1a' }}>{shippingAccount?.name || '-'}</span>
             </div>
           </div>
         </div>
 
         <div className="glass-card p-5">
-          <h3 className="font-semibold mb-4" style={{ color: '#1a1a1a' }}>财务信息</h3>
+          <h3 className="font-semibold mb-4" style={{ color: '#1a1a1a' }}>{language === 'zh' ? '财务信息' : 'Financial Info'}</h3>
           <div className="space-y-3">
             <div className="flex justify-between items-center py-2.5 border-b" style={{ borderColor: 'rgba(0,0,0,0.06)' }}>
-              <span style={{ color: '#999' }}>售价</span>
+              <span style={{ color: '#999' }}>{t.items.price}</span>
               <span className="font-semibold" style={{ color: '#10b981' }}>{formatMoney(item.price)}</span>
             </div>
             <div className="flex justify-between items-center py-2.5 border-b" style={{ borderColor: 'rgba(0,0,0,0.06)' }}>
-              <span style={{ color: '#999' }}>成本</span>
+              <span style={{ color: '#999' }}>{t.items.cost}</span>
               <span className="font-semibold" style={{ color: '#ef4444' }}>- {formatMoney(item.cost)}</span>
             </div>
             <div className="flex justify-between items-center py-2.5 border-b" style={{ borderColor: 'rgba(0,0,0,0.06)' }}>
-              <span style={{ color: '#999' }}>邮费</span>
+              <span style={{ color: '#999' }}>{t.items.shipping}</span>
               <span className="font-semibold" style={{ color: '#f59e0b' }}>- {formatMoney(item.shipping)}</span>
             </div>
             <div className="flex justify-between items-center py-4 mt-2">
-              <span className="font-semibold" style={{ color: '#1a1a1a' }}>实际利润</span>
+              <span className="font-semibold" style={{ color: '#1a1a1a' }}>{language === 'zh' ? '实际利润' : 'Actual Profit'}</span>
               <span className="text-xl font-bold" style={{ color: item.profit >= 0 ? '#10b981' : '#ef4444' }}>
                 {formatMoney(item.profit)}
               </span>
@@ -173,7 +176,7 @@ export default function ItemDetailPage() {
 
         {item.remark && (
           <div className="glass-card p-5">
-            <h3 className="font-semibold mb-3" style={{ color: '#1a1a1a' }}>备注</h3>
+            <h3 className="font-semibold mb-3" style={{ color: '#1a1a1a' }}>{t.items.remark}</h3>
             <div className="text-sm p-4 rounded-xl" style={{ background: 'rgba(0,0,0,0.03)', color: '#666' }}>
               {item.remark}
             </div>
@@ -183,17 +186,17 @@ export default function ItemDetailPage() {
         <div className="glass-card p-5">
           <div className="space-y-3 text-sm" style={{ color: '#999' }}>
             <div className="flex justify-between">
-              <span>创建时间</span>
+              <span>{t.items.createdAt}</span>
               <span style={{ color: '#666' }}>{formatDate(item.createdAt)}</span>
             </div>
             <div className="flex justify-between">
-              <span>更新时间</span>
+              <span>{language === 'zh' ? '更新时间' : 'Updated At'}</span>
               <span style={{ color: '#666' }}>{formatDate(item.updatedAt)}</span>
             </div>
             <div className="flex justify-between">
-              <span>结算状态</span>
+              <span>{language === 'zh' ? '结算状态' : 'Settlement Status'}</span>
               <span style={{ color: item.settled ? '#10b981' : '#f59e0b', fontWeight: 500 }}>
-                {item.settled ? '已结算' : '待结算'}
+                {item.settled ? t.settlement.settled : t.settlement.unsettled}
               </span>
             </div>
           </div>

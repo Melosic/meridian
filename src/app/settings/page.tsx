@@ -7,6 +7,7 @@ import {
   Dialog,
   Toast,
   ProgressBar,
+  Selector,
 } from 'antd-mobile';
 import { 
   AppstoreOutline, 
@@ -19,7 +20,7 @@ import {
   DownlandOutline,
   UploadOutline,
 } from 'antd-mobile-icons';
-import { useItemStore, useAccountStore, useCategoryStore } from '@/store';
+import { useItemStore, useAccountStore, useCategoryStore, useLanguageStore } from '@/store';
 import { saveItems, saveAccounts, saveCategories, saveSettlementLogs, getSettlementLogs } from '@/lib/db';
 
 export default function SettingsPage() {
@@ -29,6 +30,10 @@ export default function SettingsPage() {
   const [exportDialogVisible, setExportDialogVisible] = useState(false);
   const [storageInfo, setStorageInfo] = useState({ used: 0, total: 500 * 1024 * 1024 });
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const t = useLanguageStore((s) => s.translations);
+  const language = useLanguageStore((s) => s.language);
+  const setLanguage = useLanguageStore((s) => s.setLanguage);
 
   const items = useItemStore((s) => s.items);
   const accounts = useAccountStore((s) => s.accounts);
@@ -179,13 +184,13 @@ export default function SettingsPage() {
         style={{ background: 'transparent' }}
       >
         <div className="relative z-10">
-          <h1 className="text-2xl font-bold tracking-tight" style={{ color: '#0f172a' }}>设置</h1>
+          <h1 className="text-2xl font-bold tracking-tight" style={{ color: '#0f172a' }}>{t.settings.title}</h1>
         </div>
       </div>
 
       <div className="px-5 -mt-6 relative z-10 space-y-5">
         <div className="glass-card p-6">
-          <h3 className="font-bold text-lg mb-5" style={{ color: '#0f172a' }}>数据管理</h3>
+          <h3 className="font-bold text-lg mb-5" style={{ color: '#0f172a' }}>{t.settings.dataManagement}</h3>
           
           <div 
             className="flex items-center justify-between p-4 mb-4 cursor-pointer transition-all hover:bg-white/30 rounded-2xl"
@@ -200,8 +205,8 @@ export default function SettingsPage() {
                 <DownlandOutline style={{ fontSize: 22, color: '#fff' }} />
               </div>
               <div>
-                <div className="font-bold" style={{ color: '#0f172a' }}>导出数据</div>
-                <div className="text-xs mt-1 font-semibold" style={{ color: '#64748b' }}>导出为JSON或CSV</div>
+                <div className="font-bold" style={{ color: '#0f172a' }}>{t.settings.exportData}</div>
+                <div className="text-xs mt-1 font-semibold" style={{ color: '#64748b' }}>{t.settings.exportDesc}</div>
               </div>
             </div>
             <RightOutline style={{ color: '#94a3b8', fontSize: 16 }} />
@@ -220,8 +225,8 @@ export default function SettingsPage() {
                 <UploadOutline style={{ fontSize: 22, color: '#fff' }} />
               </div>
               <div>
-                <div className="font-bold" style={{ color: '#0f172a' }}>导入数据</div>
-                <div className="text-xs mt-1 font-semibold" style={{ color: '#64748b' }}>从备份文件导入</div>
+                <div className="font-bold" style={{ color: '#0f172a' }}>{t.settings.importData}</div>
+                <div className="text-xs mt-1 font-semibold" style={{ color: '#64748b' }}>{t.settings.importDesc}</div>
               </div>
             </div>
             <RightOutline style={{ color: '#94a3b8', fontSize: 16 }} />
@@ -240,8 +245,8 @@ export default function SettingsPage() {
                 <DeleteOutline style={{ fontSize: 22, color: '#fff' }} />
               </div>
               <div>
-                <div className="font-bold" style={{ color: '#ef4444' }}>清除本地数据</div>
-                <div className="text-xs mt-1 font-semibold" style={{ color: '#64748b' }}>删除所有本地数据</div>
+                <div className="font-bold" style={{ color: '#ef4444' }}>{t.settings.clearData}</div>
+                <div className="text-xs mt-1 font-semibold" style={{ color: '#64748b' }}>{t.settings.clearDesc}</div>
               </div>
             </div>
             <RightOutline style={{ color: '#94a3b8', fontSize: 16 }} />
@@ -249,9 +254,9 @@ export default function SettingsPage() {
         </div>
 
         <div className="glass-card p-6">
-          <h3 className="font-bold text-lg mb-5" style={{ color: '#0f172a' }}>存储使用</h3>
+          <h3 className="font-bold text-lg mb-5" style={{ color: '#0f172a' }}>{t.settings.storageUsage}</h3>
           <div className="mb-3 flex justify-between text-sm">
-            <span style={{ color: '#64748b' }}>已使用</span>
+            <span style={{ color: '#64748b' }}>{t.settings.used}</span>
             <span style={{ color: '#0f172a', fontWeight: 600 }}>{storageInfo.used > 1024 ? `${(storageInfo.used / 1024).toFixed(2)} MB` : `${storageInfo.used} KB`} / {storageInfo.total / 1024 / 1024} MB</span>
           </div>
           <ProgressBar 
@@ -263,24 +268,47 @@ export default function SettingsPage() {
             } as any}
           />
           <div className="mt-4 text-xs font-semibold" style={{ color: '#64748b' }}>
-            数据存储在浏览器本地，超出限制可能导致存储失败
+            {t.settings.storageWarning}
           </div>
         </div>
 
         <div className="glass-card p-6">
-          <h3 className="font-bold text-lg mb-5" style={{ color: '#0f172a' }}>数据统计</h3>
+          <h3 className="font-bold text-lg mb-5" style={{ color: '#0f172a' }}>{language === 'zh' ? '语言' : 'Language'}</h3>
+          
+          <Selector
+            value={[language]}
+            options={[
+              { label: '中文', value: 'zh' },
+              { label: 'English', value: 'en' },
+            ]}
+            onChange={(v) => {
+              if (v[0]) {
+                setLanguage(v[0] as 'zh' | 'en');
+              }
+            }}
+            style={{
+              '--border-radius': '12px',
+              '--border': 'none',
+              '--checked-color': 'rgba(15, 23, 42, 0.1)',
+              '--padding': '12px',
+            }}
+          />
+        </div>
+
+        <div className="glass-card p-6">
+          <h3 className="font-bold text-lg mb-5" style={{ color: '#0f172a' }}>{t.settings.dataStats}</h3>
           <div className="grid grid-cols-3 gap-4">
             <div className="text-center p-4 rounded-2xl" style={{ background: 'rgba(255,255,255,0.4)' }}>
               <div className="text-2xl font-bold" style={{ color: '#0f172a' }}>{items.length}</div>
-              <div className="text-xs mt-1 font-semibold" style={{ color: '#64748b' }}>商品</div>
+              <div className="text-xs mt-1 font-semibold" style={{ color: '#64748b' }}>{t.settings.products}</div>
             </div>
             <div className="text-center p-4 rounded-2xl" style={{ background: 'rgba(255,255,255,0.4)' }}>
               <div className="text-2xl font-bold" style={{ color: '#0f172a' }}>{accounts.length}</div>
-              <div className="text-xs mt-1 font-semibold" style={{ color: '#64748b' }}>账号</div>
+              <div className="text-xs mt-1 font-semibold" style={{ color: '#64748b' }}>{t.app.accounts}</div>
             </div>
             <div className="text-center p-4 rounded-2xl" style={{ background: 'rgba(255,255,255,0.4)' }}>
               <div className="text-2xl font-bold" style={{ color: '#0f172a' }}>{categories.length}</div>
-              <div className="text-xs mt-1 font-semibold" style={{ color: '#64748b' }}>分类</div>
+              <div className="text-xs mt-1 font-semibold" style={{ color: '#64748b' }}>{t.app.categories}</div>
             </div>
           </div>
         </div>
@@ -291,18 +319,18 @@ export default function SettingsPage() {
         onClose={() => setClearDialogVisible(false)}
         title={
           <div className="flex items-center gap-2 font-bold" style={{ color: '#ef4444' }}>
-            <ExclamationOutline /> 确认清除
+            <ExclamationOutline /> {t.common.confirm} {t.settings.clearData}
           </div>
         }
         content={
           <div className="text-base font-semibold" style={{ color: '#64748b' }}>
-            确定要清除所有本地数据吗？此操作不可恢复！
+            {language === 'zh' ? '确定要清除所有本地数据吗？此操作不可恢复！' : 'Are you sure you want to clear all local data? This action cannot be undone!'}
           </div>
         }
         actions={[
-          { text: '取消', key: 'cancel', onClick: () => setClearDialogVisible(false), style: { color: '#64748b' } },
+          { text: t.common.cancel, key: 'cancel', onClick: () => setClearDialogVisible(false), style: { color: '#64748b' } },
           { 
-            text: '确认清除', 
+            text: t.common.confirm, 
             key: 'confirm', 
             onClick: handleClearData,
             style: { color: '#ef4444', fontWeight: 700 }
@@ -313,7 +341,7 @@ export default function SettingsPage() {
       <Dialog
         visible={exportDialogVisible}
         onClose={() => setExportDialogVisible(false)}
-        title={<div className="font-bold" style={{ color: '#0f172a' }}>导出数据</div>}
+        title={<div className="font-bold" style={{ color: '#0f172a' }}>{t.settings.exportData}</div>}
         content={
           <div className="space-y-4">
             <div 
@@ -322,8 +350,8 @@ export default function SettingsPage() {
               onClick={handleExportJSON}
             >
               <div className="flex items-center gap-3">
-                <div className="font-bold" style={{ color: '#0f172a' }}>JSON 备份</div>
-                <div className="text-xs font-semibold" style={{ color: '#64748b' }}>完整备份</div>
+                <div className="font-bold" style={{ color: '#0f172a' }}>JSON {language === 'zh' ? '备份' : 'Backup'}</div>
+                <div className="text-xs font-semibold" style={{ color: '#64748b' }}>{language === 'zh' ? '完整备份' : 'Full Backup'}</div>
               </div>
               <RightOutline style={{ color: '#94a3b8', fontSize: 16 }} />
             </div>
@@ -333,8 +361,8 @@ export default function SettingsPage() {
               onClick={handleExportCSV}
             >
               <div className="flex items-center gap-3">
-                <div className="font-bold" style={{ color: '#0f172a' }}>CSV 表格</div>
-                <div className="text-xs font-semibold" style={{ color: '#64748b' }}>商品列表</div>
+                <div className="font-bold" style={{ color: '#0f172a' }}>CSV {language === 'zh' ? '表格' : 'File'}</div>
+                <div className="text-xs font-semibold" style={{ color: '#64748b' }}>{language === 'zh' ? '商品列表' : 'Items List'}</div>
               </div>
               <RightOutline style={{ color: '#94a3b8', fontSize: 16 }} />
             </div>
@@ -348,35 +376,35 @@ export default function SettingsPage() {
           className="flex flex-col items-center gap-1 py-2 px-2 rounded-2xl transition-all cursor-pointer"
         >
           <AppstoreOutline style={{ fontSize: 22, color: activeTab === 'home' ? '#0f172a' : '#64748b' }} />
-          <span style={{ fontSize: 10, color: activeTab === 'home' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'home' ? 700 : 500 }}>首页</span>
+          <span style={{ fontSize: 10, color: activeTab === 'home' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'home' ? 700 : 500 }}>{t.app.home}</span>
         </button>
         <button 
           onClick={() => { setActiveTab('items'); router.push('/items'); }}
           className="flex flex-col items-center gap-1 py-2 px-2 rounded-2xl transition-all cursor-pointer"
         >
           <UnorderedListOutline style={{ fontSize: 22, color: activeTab === 'items' ? '#0f172a' : '#64748b' }} />
-          <span style={{ fontSize: 10, color: activeTab === 'items' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'items' ? 700 : 500 }}>商品</span>
+          <span style={{ fontSize: 10, color: activeTab === 'items' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'items' ? 700 : 500 }}>{t.app.items}</span>
         </button>
         <button 
           onClick={() => { setActiveTab('settlement'); router.push('/settlement'); }}
           className="flex flex-col items-center gap-1 py-2 px-2 rounded-2xl transition-all cursor-pointer"
         >
           <PieOutline style={{ fontSize: 22, color: activeTab === 'settlement' ? '#0f172a' : '#64748b' }} />
-          <span style={{ fontSize: 10, color: activeTab === 'settlement' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'settlement' ? 700 : 500 }}>结算</span>
+          <span style={{ fontSize: 10, color: activeTab === 'settlement' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'settlement' ? 700 : 500 }}>{t.app.settlement}</span>
         </button>
         <button 
           onClick={() => { setActiveTab('accounts'); router.push('/accounts'); }}
           className="flex flex-col items-center gap-1 py-2 px-2 rounded-2xl transition-all cursor-pointer"
         >
           <SetOutline style={{ fontSize: 22, color: activeTab === 'accounts' ? '#0f172a' : '#64748b' }} />
-          <span style={{ fontSize: 10, color: activeTab === 'accounts' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'accounts' ? 700 : 500 }}>账号</span>
+          <span style={{ fontSize: 10, color: activeTab === 'accounts' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'accounts' ? 700 : 500 }}>{t.app.accounts}</span>
         </button>
         <button 
           onClick={() => { setActiveTab('settings'); router.push('/settings'); }}
           className="flex flex-col items-center gap-1 py-2 px-2 rounded-2xl transition-all cursor-pointer"
         >
           <RightOutline style={{ fontSize: 22, color: activeTab === 'settings' ? '#0f172a' : '#64748b' }} />
-          <span style={{ fontSize: 10, color: activeTab === 'settings' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'settings' ? 700 : 500 }}>设置</span>
+          <span style={{ fontSize: 10, color: activeTab === 'settings' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'settings' ? 700 : 500 }}>{t.app.settings}</span>
         </button>
       </div>
     </div>

@@ -17,7 +17,7 @@ import {
   PieOutline,
   RightOutline,
 } from 'antd-mobile-icons';
-import { useCategoryStore, useItemStore } from '@/store';
+import { useCategoryStore, useItemStore, useLanguageStore } from '@/store';
 import type { Category } from '@/types';
 
 const CATEGORY_COLORS = [
@@ -33,6 +33,8 @@ export default function CategoriesPage() {
   const [currentCategory, setCurrentCategory] = useState<Category | null>(null);
   const [categoryName, setCategoryName] = useState('');
   
+  const t = useLanguageStore((s) => s.translations);
+  const language = useLanguageStore((s) => s.language);
   const categories = useCategoryStore((s) => s.categories);
   const addCategory = useCategoryStore((s) => s.addCategory);
   const updateCategory = useCategoryStore((s) => s.updateCategory);
@@ -41,40 +43,40 @@ export default function CategoriesPage() {
 
   const handleAdd = async () => {
     if (!categoryName.trim()) {
-      Toast.show({ content: '请输入分类名称', position: 'bottom' });
+      Toast.show({ content: language === 'zh' ? '请输入分类名称' : 'Please enter category name', position: 'bottom' });
       return;
     }
     const randomColor = CATEGORY_COLORS[Math.floor(Math.random() * CATEGORY_COLORS.length)];
     await addCategory({ name: categoryName.trim(), color: randomColor });
     setCategoryName('');
     setAddDialogVisible(false);
-    Toast.show({ content: '添加成功', position: 'bottom' });
+    Toast.show({ content: t.common.success, position: 'bottom' });
   };
 
   const handleEdit = async () => {
     if (!categoryName.trim() || !currentCategory) {
-      Toast.show({ content: '请输入分类名称', position: 'bottom' });
+      Toast.show({ content: language === 'zh' ? '请输入分类名称' : 'Please enter category name', position: 'bottom' });
       return;
     }
     await updateCategory(currentCategory.id, { name: categoryName.trim() });
     setCategoryName('');
     setCurrentCategory(null);
     setEditDialogVisible(false);
-    Toast.show({ content: '修改成功', position: 'bottom' });
+    Toast.show({ content: t.common.success, position: 'bottom' });
   };
 
   const handleDelete = async (category: Category) => {
     const count = checkItemCountByCategory(category.id);
     if (count > 0) {
-      Toast.show({ content: `该分类关联${count}个商品，无法删除`, position: 'bottom' });
+      Toast.show({ content: language === 'zh' ? `该分类关联${count}个商品，无法删除` : `This category is linked to ${count} items and cannot be deleted`, position: 'bottom' });
       return;
     }
     Dialog.confirm({
-      title: '确认删除',
-      content: `确定要删除分类"${category.name}"吗？`,
+      title: t.common.confirm + ' ' + t.common.delete,
+      content: language === 'zh' ? `确定要删除分类"${category.name}"吗？` : `Are you sure you want to delete category "${category.name}"?`,
       onConfirm: async () => {
         await deleteCategory(category.id);
-        Toast.show({ content: '删除成功', position: 'bottom' });
+        Toast.show({ content: t.common.success, position: 'bottom' });
       },
     });
   };
@@ -97,13 +99,13 @@ export default function CategoriesPage() {
           rightActions={[
             {
               key: 'edit',
-              text: '编辑',
+              text: t.common.edit,
               color: 'primary',
               onClick: () => openEditDialog(category),
             },
             {
               key: 'delete',
-              text: '删除',
+              text: t.common.delete,
               color: 'danger',
               onClick: () => handleDelete(category),
             },
@@ -120,7 +122,7 @@ export default function CategoriesPage() {
                 </div>
                 <div>
                   <div className="font-bold text-lg" style={{ color: '#0f172a' }}>{category.name}</div>
-                  <div className="text-xs mt-1 font-semibold" style={{ color: '#64748b' }}>{itemCount} 件商品</div>
+                  <div className="text-xs mt-1 font-semibold" style={{ color: '#64748b' }}>{itemCount} {language === 'zh' ? '件商品' : 'items'}</div>
                 </div>
               </div>
             </div>
@@ -137,19 +139,19 @@ export default function CategoriesPage() {
         style={{ background: 'transparent' }}
       >
         <div className="relative z-10">
-          <h1 className="text-2xl font-bold tracking-tight" style={{ color: '#0f172a' }}>商品类别</h1>
+          <h1 className="text-2xl font-bold tracking-tight" style={{ color: '#0f172a' }}>{t.categories.title}</h1>
         </div>
       </div>
 
       <div className="px-5 -mt-6 relative z-10">
         {categories.length === 0 ? (
           <div className="empty-state-card cursor-pointer flex flex-col items-center justify-center py-12" onClick={() => setAddDialogVisible(true)}>
-            <div className="text-slate-500 mb-6 font-semibold text-lg">暂无分类</div>
+            <div className="text-slate-500 mb-6 font-semibold text-lg">{t.common.noData}</div>
             <button 
               onClick={() => setAddDialogVisible(true)}
               className="glass-button px-8 py-3.5 text-sm cursor-pointer"
             >
-              添加分类
+              {t.categories.addCategory}
             </button>
           </div>
         ) : (
@@ -166,7 +168,7 @@ export default function CategoriesPage() {
               }}
               onClick={() => setAddDialogVisible(true)}
             >
-              <div className="text-base mt-2 font-semibold" style={{ color: '#64748b' }}>添加分类</div>
+              <div className="text-base mt-2 font-semibold" style={{ color: '#64748b' }}>{t.categories.addCategory}</div>
             </div>
           </>
         )}
@@ -175,10 +177,10 @@ export default function CategoriesPage() {
       <Dialog
         visible={addDialogVisible}
         onClose={() => setAddDialogVisible(false)}
-        title={<div className="font-bold" style={{ color: '#0f172a' }}>添加分类</div>}
+        title={<div className="font-bold" style={{ color: '#0f172a' }}>{t.categories.addCategory}</div>}
         content={
           <Input
-            placeholder="请输入分类名称"
+            placeholder={language === 'zh' ? '请输入分类名称' : 'Please enter category name'}
             value={categoryName}
             onChange={setCategoryName}
             style={{ 
@@ -191,9 +193,9 @@ export default function CategoriesPage() {
           />
         }
         actions={[
-          { text: '取消', key: 'cancel', onClick: () => setAddDialogVisible(false), style: { color: '#64748b' } },
+          { text: t.common.cancel, key: 'cancel', onClick: () => setAddDialogVisible(false), style: { color: '#64748b' } },
           { 
-            text: '确定', 
+            text: t.common.confirm, 
             key: 'confirm', 
             onClick: handleAdd,
             style: { color: '#0f172a', fontWeight: 700 }
@@ -204,10 +206,10 @@ export default function CategoriesPage() {
       <Dialog
         visible={editDialogVisible}
         onClose={() => setEditDialogVisible(false)}
-        title={<div className="font-bold" style={{ color: '#0f172a' }}>编辑分类</div>}
+        title={<div className="font-bold" style={{ color: '#0f172a' }}>{t.categories.editCategory}</div>}
         content={
           <Input
-            placeholder="请输入分类名称"
+            placeholder={language === 'zh' ? '请输入分类名称' : 'Please enter category name'}
             value={categoryName}
             onChange={setCategoryName}
             style={{ 
@@ -220,9 +222,9 @@ export default function CategoriesPage() {
           />
         }
         actions={[
-          { text: '取消', key: 'cancel', onClick: () => setEditDialogVisible(false), style: { color: '#64748b' } },
+          { text: t.common.cancel, key: 'cancel', onClick: () => setEditDialogVisible(false), style: { color: '#64748b' } },
           { 
-            text: '确定', 
+            text: t.common.confirm, 
             key: 'confirm', 
             onClick: handleEdit,
             style: { color: '#0f172a', fontWeight: 700 }
@@ -236,35 +238,35 @@ export default function CategoriesPage() {
           className="flex flex-col items-center gap-1 py-2 px-2 rounded-2xl transition-all cursor-pointer"
         >
           <AppstoreOutline style={{ fontSize: 22, color: activeTab === 'home' ? '#0f172a' : '#64748b' }} />
-          <span style={{ fontSize: 10, color: activeTab === 'home' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'home' ? 700 : 500 }}>首页</span>
+          <span style={{ fontSize: 10, color: activeTab === 'home' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'home' ? 700 : 500 }}>{t.app.home}</span>
         </button>
         <button 
           onClick={() => { setActiveTab('items'); router.push('/items'); }}
           className="flex flex-col items-center gap-1 py-2 px-2 rounded-2xl transition-all cursor-pointer"
         >
           <UnorderedListOutline style={{ fontSize: 22, color: activeTab === 'items' ? '#0f172a' : '#64748b' }} />
-          <span style={{ fontSize: 10, color: activeTab === 'items' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'items' ? 700 : 500 }}>商品</span>
+          <span style={{ fontSize: 10, color: activeTab === 'items' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'items' ? 700 : 500 }}>{t.app.items}</span>
         </button>
         <button 
           onClick={() => { setActiveTab('settlement'); router.push('/settlement'); }}
           className="flex flex-col items-center gap-1 py-2 px-2 rounded-2xl transition-all cursor-pointer"
         >
           <PieOutline style={{ fontSize: 22, color: activeTab === 'settlement' ? '#0f172a' : '#64748b' }} />
-          <span style={{ fontSize: 10, color: activeTab === 'settlement' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'settlement' ? 700 : 500 }}>结算</span>
+          <span style={{ fontSize: 10, color: activeTab === 'settlement' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'settlement' ? 700 : 500 }}>{t.app.settlement}</span>
         </button>
         <button 
           onClick={() => { setActiveTab('accounts'); router.push('/accounts'); }}
           className="flex flex-col items-center gap-1 py-2 px-2 rounded-2xl transition-all cursor-pointer"
         >
           <SetOutline style={{ fontSize: 22, color: activeTab === 'accounts' ? '#0f172a' : '#64748b' }} />
-          <span style={{ fontSize: 10, color: activeTab === 'accounts' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'accounts' ? 700 : 500 }}>账号</span>
+          <span style={{ fontSize: 10, color: activeTab === 'accounts' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'accounts' ? 700 : 500 }}>{t.app.accounts}</span>
         </button>
         <button 
           onClick={() => { setActiveTab('settings'); router.push('/settings'); }}
           className="flex flex-col items-center gap-1 py-2 px-2 rounded-2xl transition-all cursor-pointer"
         >
           <RightOutline style={{ fontSize: 22, color: activeTab === 'settings' ? '#0f172a' : '#64748b' }} />
-          <span style={{ fontSize: 10, color: activeTab === 'settings' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'settings' ? 700 : 500 }}>设置</span>
+          <span style={{ fontSize: 10, color: activeTab === 'settings' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'settings' ? 700 : 500 }}>{t.app.settings}</span>
         </button>
       </div>
     </div>

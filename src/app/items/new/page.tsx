@@ -14,13 +14,16 @@ import {
 } from 'antd-mobile';
 import type { ImageUploadItem } from 'antd-mobile';
 import { LeftOutline, AddOutline } from 'antd-mobile-icons';
-import { useItemStore, useCategoryStore, useAccountStore } from '@/store';
+import { useItemStore, useCategoryStore, useAccountStore, useLanguageStore } from '@/store';
 import { calculateProfit, compressImage } from '@/lib/utils';
 import type { ItemImage } from '@/types';
 
 export default function NewItemPage() {
   const router = useRouter();
   const [submitting, setSubmitting] = useState(false);
+  
+  const t = useLanguageStore((s) => s.translations);
+  const language = useLanguageStore((s) => s.language);
   
   const [name, setName] = useState('');
   const [categoryId, setCategoryId] = useState<string>('');
@@ -49,31 +52,31 @@ export default function NewItemPage() {
 
   const handleSubmit = async () => {
     if (!name.trim()) {
-      Toast.show({ content: '请输入商品名称', position: 'bottom' });
+      Toast.show({ content: language === 'zh' ? '请输入商品名称' : 'Please enter item name', position: 'bottom' });
       return;
     }
     if (!buyAccountId) {
-      Toast.show({ content: '请选择购买账号', position: 'bottom' });
+      Toast.show({ content: language === 'zh' ? '请选择购买账号' : 'Please select buy account', position: 'bottom' });
       return;
     }
     if (!sellAccountId) {
-      Toast.show({ content: '请选择销售账号', position: 'bottom' });
+      Toast.show({ content: language === 'zh' ? '请选择销售账号' : 'Please select sell account', position: 'bottom' });
       return;
     }
     if (!shippingAccountId) {
-      Toast.show({ content: '请选择邮费支付账号', position: 'bottom' });
+      Toast.show({ content: language === 'zh' ? '请选择邮费支付账号' : 'Please select shipping account', position: 'bottom' });
       return;
     }
     if (price === '' || Number(price) < 0) {
-      Toast.show({ content: '请输入有效的售价', position: 'bottom' });
+      Toast.show({ content: language === 'zh' ? '请输入有效的售价' : 'Please enter valid price', position: 'bottom' });
       return;
     }
     if (cost === '' || Number(cost) < 0) {
-      Toast.show({ content: '请输入有效的成本', position: 'bottom' });
+      Toast.show({ content: language === 'zh' ? '请输入有效的成本' : 'Please enter valid cost', position: 'bottom' });
       return;
     }
     if (shipping === '' || Number(shipping) < 0) {
-      Toast.show({ content: '请输入有效的邮费', position: 'bottom' });
+      Toast.show({ content: language === 'zh' ? '请输入有效的邮费' : 'Please enter valid shipping', position: 'bottom' });
       return;
     }
 
@@ -98,10 +101,10 @@ export default function NewItemPage() {
         remark: remark.trim() || undefined,
       });
 
-      Toast.show({ content: '添加成功', position: 'bottom' });
+      Toast.show({ content: t.common.success, position: 'bottom' });
       router.push('/items');
     } catch (error) {
-      Toast.show({ content: '添加失败', position: 'bottom' });
+      Toast.show({ content: language === 'zh' ? '添加失败' : 'Add failed', position: 'bottom' });
     } finally {
       setSubmitting(false);
     }
@@ -142,18 +145,18 @@ export default function NewItemPage() {
         <button onClick={() => router.back()} className="p-1">
           <LeftOutline style={{ fontSize: 22, color: '#1a1a1a' }} />
         </button>
-        <h1 className="text-xl font-semibold" style={{ color: '#1a1a1a' }}>新增商品</h1>
+        <h1 className="text-xl font-semibold" style={{ color: '#1a1a1a' }}>{t.items.addItem}</h1>
       </div>
 
       <div className="px-4 pt-2">
         <div className="p-5 mb-4" style={{ background: '#fff', borderRadius: 20, boxShadow: '0 1px 3px rgba(0,0,0,0.08)' }}>
           <div className="space-y-5">
             <div>
-              <div className="text-sm mb-2 font-medium" style={{ color: '#374151' }}>商品名称 <span style={{ color: '#ef4444' }}>*</span></div>
+              <div className="text-sm mb-2 font-medium" style={{ color: '#374151' }}>{t.items.itemName} <span style={{ color: '#ef4444' }}>*</span></div>
               <Input
-                placeholder="请输入商品名称"
                 value={name}
                 onChange={setName}
+                placeholder={language === 'zh' ? '请输入商品名称' : 'Please enter item name'}
                 style={{ 
                   borderRadius: 16,
                   '--placeholder-color': '#9ca3af',
@@ -166,7 +169,7 @@ export default function NewItemPage() {
             </div>
 
             <div>
-              <div className="text-sm mb-2 font-medium" style={{ color: '#374151' }}>商品分类</div>
+              <div className="text-sm mb-2 font-medium" style={{ color: '#374151' }}>{t.items.category}</div>
               <div style={{ 
                 background: '#f9fafb',
                 borderRadius: 16,
@@ -175,7 +178,7 @@ export default function NewItemPage() {
               }}>
                 <Selector
                   options={[
-                    { label: '无分类', value: '' },
+                    { label: language === 'zh' ? '无分类' : 'No Category', value: '' },
                     ...categories.map((c) => ({ label: c.name, value: c.id })),
                   ]}
                   value={[categoryId]}
@@ -185,7 +188,7 @@ export default function NewItemPage() {
             </div>
 
             <div>
-              <div className="text-sm mb-2 font-medium" style={{ color: '#374151' }}>购买账号 <span style={{ color: '#ef4444' }}>*</span></div>
+              <div className="text-sm mb-2 font-medium" style={{ color: '#374151' }}>{t.items.buyAccount} <span style={{ color: '#ef4444' }}>*</span></div>
               <div style={{ 
                 background: '#f9fafb',
                 borderRadius: 16,
@@ -201,7 +204,7 @@ export default function NewItemPage() {
             </div>
 
             <div>
-              <div className="text-sm mb-2 font-medium" style={{ color: '#374151' }}>销售账号 <span style={{ color: '#ef4444' }}>*</span></div>
+              <div className="text-sm mb-2 font-medium" style={{ color: '#374151' }}>{t.items.sellAccount} <span style={{ color: '#ef4444' }}>*</span></div>
               <div style={{ 
                 background: '#f9fafb',
                 borderRadius: 16,
@@ -217,7 +220,7 @@ export default function NewItemPage() {
             </div>
 
             <div>
-              <div className="text-sm mb-2 font-medium" style={{ color: '#374151' }}>邮费支付账号 <span style={{ color: '#ef4444' }}>*</span></div>
+              <div className="text-sm mb-2 font-medium" style={{ color: '#374151' }}>{t.items.shippingAccount} <span style={{ color: '#ef4444' }}>*</span></div>
               <div style={{ 
                 background: '#f9fafb',
                 borderRadius: 16,
@@ -234,7 +237,7 @@ export default function NewItemPage() {
 
             <div className="grid grid-cols-3 gap-3">
               <div>
-                <div className="text-sm mb-2 font-medium" style={{ color: '#374151' }}>售价 <span style={{ color: '#ef4444' }}>*</span></div>
+                <div className="text-sm mb-2 font-medium" style={{ color: '#374151' }}>{t.items.price} <span style={{ color: '#ef4444' }}>*</span></div>
                 <Input
                   type="number"
                   placeholder="0"
@@ -251,7 +254,7 @@ export default function NewItemPage() {
                 />
               </div>
               <div>
-                <div className="text-sm mb-2 font-medium" style={{ color: '#374151' }}>成本 <span style={{ color: '#ef4444' }}>*</span></div>
+                <div className="text-sm mb-2 font-medium" style={{ color: '#374151' }}>{t.items.cost} <span style={{ color: '#ef4444' }}>*</span></div>
                 <Input
                   type="number"
                   placeholder="0"
@@ -268,7 +271,7 @@ export default function NewItemPage() {
                 />
               </div>
               <div>
-                <div className="text-sm mb-2 font-medium" style={{ color: '#374151' }}>邮费 <span style={{ color: '#ef4444' }}>*</span></div>
+                <div className="text-sm mb-2 font-medium" style={{ color: '#374151' }}>{t.items.shipping} <span style={{ color: '#ef4444' }}>*</span></div>
                 <Input
                   type="number"
                   placeholder="0"
@@ -288,7 +291,7 @@ export default function NewItemPage() {
 
             <div className="p-4">
               <div className="flex justify-between items-center">
-                <span className="text-sm font-medium" style={{ color: '#374151' }}>利润</span>
+                <span className="text-sm font-medium" style={{ color: '#374151' }}>{t.items.profit}</span>
                 <span className={`text-xl font-bold ${profit >= 0 ? 'profit-text' : 'loss-text'}`}>
                   ¥{profit.toFixed(2)}
                 </span>
@@ -296,7 +299,7 @@ export default function NewItemPage() {
             </div>
 
             <div>
-              <div className="text-sm mb-2 font-medium" style={{ color: '#374151' }}>商品图片 <span className="text-xs" style={{ color: '#9ca3af' }}>(最多5张)</span></div>
+              <div className="text-sm mb-2 font-medium" style={{ color: '#374151' }}>{t.items.images} <span className="text-xs" style={{ color: '#9ca3af' }}>({language === 'zh' ? '最多5张' : 'Max 5'})</span></div>
               <ImageUploader
                 value={images}
                 onChange={setImages}

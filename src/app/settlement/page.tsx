@@ -18,7 +18,7 @@ import {
   UserOutline,
   RightOutline,
 } from 'antd-mobile-icons';
-import { useItemStore, useAccountStore } from '@/store';
+import { useItemStore, useAccountStore, useLanguageStore } from '@/store';
 import { formatMoney } from '@/lib/utils';
 import type { SettlementLog, Item } from '@/types';
 import { getSettlementLogs, saveSettlementLogs } from '@/lib/db';
@@ -30,6 +30,8 @@ export default function SettlementPage() {
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [actionLoading, setActionLoading] = useState(false);
 
+  const t = useLanguageStore((s) => s.translations);
+  const language = useLanguageStore((s) => s.language);
   const items = useItemStore((s) => s.items);
   const updateItem = useItemStore((s) => s.updateItem);
   const accounts = useAccountStore((s) => s.accounts);
@@ -91,24 +93,24 @@ export default function SettlementPage() {
 
   const handleSettle = async () => {
     if (selectedItems.length === 0) {
-      Toast.show({ content: '请选择要结算的商品', position: 'bottom' });
+      Toast.show({ content: t.settlement.selectItems, position: 'bottom' });
       return;
     }
 
     const itemsToSettle = items.filter((item) => selectedItems.includes(item.id));
     
     Dialog.confirm({
-      title: '确认结算',
+      title: t.common.confirm + ' ' + t.settlement.settle,
       content: (
         <div>
-          <div>即将结算 {selectedItems.length} 笔交易</div>
+          <div>{language === 'zh' ? `即将结算 ${selectedItems.length} 笔交易` : `Will settle ${selectedItems.length} transactions`}</div>
           <div className="mt-4 text-sm font-semibold" style={{ color: '#64748b' }}>
             {calculateSettlements(itemsToSettle).map((s, i) => {
               const from = accounts.find((a) => a.id === s.from);
               const to = accounts.find((a) => a.id === s.to);
               return (
                 <div key={i} className="py-1.5">
-                  {from?.name} → {to?.name}: {formatMoney(s.amount)} ({s.type === 'cost' ? '成本' : '邮费'})
+                  {from?.name} → {to?.name}: {formatMoney(s.amount)} ({s.type === 'cost' ? (language === 'zh' ? '成本' : 'Cost') : (language === 'zh' ? '邮费' : 'Shipping')})
                 </div>
               );
             })}
@@ -136,10 +138,10 @@ export default function SettlementPage() {
           const existingLogs = await getSettlementLogs();
           await saveSettlementLogs([...existingLogs, ...logs]);
           
-          Toast.show({ content: '结算成功', position: 'bottom' });
+          Toast.show({ content: t.settlement.settlementComplete, position: 'bottom' });
           setSelectedItems([]);
         } catch (error) {
-          Toast.show({ content: '结算失败', position: 'bottom' });
+          Toast.show({ content: language === 'zh' ? '结算失败' : 'Settlement failed', position: 'bottom' });
         } finally {
           setActionLoading(false);
         }
@@ -149,20 +151,20 @@ export default function SettlementPage() {
 
   const handleUnsettle = async () => {
     if (selectedItems.length === 0) {
-      Toast.show({ content: '请选择要取消结算的商品', position: 'bottom' });
+      Toast.show({ content: language === 'zh' ? '请选择要取消结算的商品' : 'Please select items to unsettle', position: 'bottom' });
       return;
     }
 
     Dialog.confirm({
-      title: '确认取消结算',
-      content: `即将取消 ${selectedItems.length} 笔交易的结算状态`,
+      title: language === 'zh' ? '确认取消结算' : 'Confirm Unsettle',
+      content: language === 'zh' ? `即将取消 ${selectedItems.length} 笔交易的结算状态` : `Will unsettle ${selectedItems.length} transactions`,
       onConfirm: async () => {
         setActionLoading(true);
         try {
           for (const itemId of selectedItems) {
             await updateItem(itemId, { settled: false });
           }
-          Toast.show({ content: '取消结算成功', position: 'bottom' });
+          Toast.show({ content: language === 'zh' ? '取消结算成功' : 'Unsettle success', position: 'bottom' });
           setSelectedItems([]);
         } catch (error) {
           Toast.show({ content: '操作失败', position: 'bottom' });
@@ -193,8 +195,8 @@ export default function SettlementPage() {
             </div>
             <div className="flex justify-between items-center mt-4">
               <div className="text-sm font-semibold" style={{ color: '#64748b' }}>
-                售价 {formatMoney(item.price)} · 成本 {formatMoney(item.cost)}
-                {item.shipping > 0 && ` · 邮费 ${formatMoney(item.shipping)}`}
+                {t.items.price} {formatMoney(item.price)} · {t.items.cost} {formatMoney(item.cost)}
+                {item.shipping > 0 && ` · ${t.items.shipping} ${formatMoney(item.shipping)}`}
               </div>
               <div 
                 className="text-sm font-bold"
@@ -202,7 +204,7 @@ export default function SettlementPage() {
                   color: item.profit >= 0 ? '#059669' : '#dc2626'
                 }}
               >
-                利润 {formatMoney(item.profit)}
+                {t.items.profit} {formatMoney(item.profit)}
               </div>
             </div>
           </div>
@@ -220,7 +222,7 @@ export default function SettlementPage() {
         style={{ background: 'transparent' }}
       >
         <div className="relative z-10">
-          <h1 className="text-2xl font-bold tracking-tight" style={{ color: '#0f172a' }}>内部结算</h1>
+          <h1 className="text-2xl font-bold tracking-tight" style={{ color: '#0f172a' }}>{t.settlement.title}</h1>
         </div>
       </div>
 
@@ -234,7 +236,7 @@ export default function SettlementPage() {
             }}
             onClick={() => { setSettleTab('unsettled'); setSelectedItems([]); }}
           >
-            待结算 ({unsettledItems.length})
+            {t.settlement.unsettled} ({unsettledItems.length})
           </button>
           <button
             className="flex-1 py-3.5 rounded-2xl text-sm font-bold transition-all cursor-pointer"
@@ -244,7 +246,7 @@ export default function SettlementPage() {
             }}
             onClick={() => { setSettleTab('settled'); setSelectedItems([]); }}
           >
-            已结算 ({settledItems.length})
+            {t.settlement.settled} ({settledItems.length})
           </button>
         </div>
 
@@ -254,7 +256,7 @@ export default function SettlementPage() {
               checked={selectedItems.length === currentItems.length && currentItems.length > 0}
               onChange={handleSelectAll}
             >
-              <span className="font-semibold" style={{ color: '#0f172a' }}>全选</span>
+              <span className="font-semibold" style={{ color: '#0f172a' }}>{language === 'zh' ? '全选' : 'Select All'}</span>
             </Checkbox>
             <span className="text-sm font-semibold" style={{ color: '#64748b' }}>
               已选 {selectedItems.length} 项
@@ -264,7 +266,7 @@ export default function SettlementPage() {
 
         {currentItems.length === 0 ? (
           <div className="glass-card p-12 text-center">
-            <Empty description={<span className="font-semibold" style={{ color: '#64748b' }}>{settleTab === 'unsettled' ? '暂无待结算商品' : '暂无已结算商品'}</span>} />
+            <Empty description={<span className="font-semibold" style={{ color: '#64748b' }}>{settleTab === 'unsettled' ? (language === 'zh' ? '暂无待结算商品' : 'No items to settle') : (language === 'zh' ? '暂无已结算商品' : 'No settled items')}</span>} />
           </div>
         ) : (
           currentItems.map(renderItemCard)
@@ -279,7 +281,7 @@ export default function SettlementPage() {
             disabled={selectedItems.length === 0}
             style={{ opacity: selectedItems.length === 0 ? 0.5 : 1 }}
           >
-            {settleTab === 'unsettled' ? `结算选中商品 (${selectedItems.length})` : `取消结算 (${selectedItems.length})`}
+            {settleTab === 'unsettled' ? `${t.settlement.settle} ${language === 'zh' ? '选中商品' : 'Selected'} (${selectedItems.length})` : `${language === 'zh' ? '取消结算' : 'Unsettle'} (${selectedItems.length})`}
           </button>
         </div>
       )}
@@ -290,35 +292,35 @@ export default function SettlementPage() {
           className="flex flex-col items-center gap-1 py-2 px-2 rounded-2xl transition-all cursor-pointer"
         >
           <AppstoreOutline style={{ fontSize: 22, color: activeTab === 'home' ? '#0f172a' : '#64748b' }} />
-          <span style={{ fontSize: 10, color: activeTab === 'home' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'home' ? 700 : 500 }}>首页</span>
+          <span style={{ fontSize: 10, color: activeTab === 'home' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'home' ? 700 : 500 }}>{t.app.home}</span>
         </button>
         <button 
           onClick={() => { setActiveTab('items'); router.push('/items'); }}
           className="flex flex-col items-center gap-1 py-2 px-2 rounded-2xl transition-all cursor-pointer"
         >
           <UnorderedListOutline style={{ fontSize: 22, color: activeTab === 'items' ? '#0f172a' : '#64748b' }} />
-          <span style={{ fontSize: 10, color: activeTab === 'items' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'items' ? 700 : 500 }}>商品</span>
+          <span style={{ fontSize: 10, color: activeTab === 'items' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'items' ? 700 : 500 }}>{t.app.items}</span>
         </button>
         <button 
           onClick={() => { setActiveTab('settlement'); router.push('/settlement'); }}
           className="flex flex-col items-center gap-1 py-2 px-2 rounded-2xl transition-all cursor-pointer"
         >
           <PieOutline style={{ fontSize: 22, color: activeTab === 'settlement' ? '#0f172a' : '#64748b' }} />
-          <span style={{ fontSize: 10, color: activeTab === 'settlement' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'settlement' ? 700 : 500 }}>结算</span>
+          <span style={{ fontSize: 10, color: activeTab === 'settlement' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'settlement' ? 700 : 500 }}>{t.app.settlement}</span>
         </button>
         <button 
           onClick={() => { setActiveTab('accounts'); router.push('/accounts'); }}
           className="flex flex-col items-center gap-1 py-2 px-2 rounded-2xl transition-all cursor-pointer"
         >
           <SetOutline style={{ fontSize: 22, color: activeTab === 'accounts' ? '#0f172a' : '#64748b' }} />
-          <span style={{ fontSize: 10, color: activeTab === 'accounts' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'accounts' ? 700 : 500 }}>账号</span>
+          <span style={{ fontSize: 10, color: activeTab === 'accounts' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'accounts' ? 700 : 500 }}>{t.app.accounts}</span>
         </button>
         <button 
           onClick={() => { setActiveTab('settings'); router.push('/settings'); }}
           className="flex flex-col items-center gap-1 py-2 px-2 rounded-2xl transition-all cursor-pointer"
         >
           <RightOutline style={{ fontSize: 22, color: activeTab === 'settings' ? '#0f172a' : '#64748b' }} />
-          <span style={{ fontSize: 10, color: activeTab === 'settings' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'settings' ? 700 : 500 }}>设置</span>
+          <span style={{ fontSize: 10, color: activeTab === 'settings' ? '#0f172a' : '#64748b', fontWeight: activeTab === 'settings' ? 700 : 500 }}>{t.app.settings}</span>
         </button>
       </div>
     </div>
